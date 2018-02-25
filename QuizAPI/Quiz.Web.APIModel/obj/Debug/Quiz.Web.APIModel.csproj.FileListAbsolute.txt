@@ -1,0 +1,5 @@
+C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.dll
+C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.pdb
+C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.dll
+C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.pdb
+C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.csprojResolveAssemblyReference.cache
