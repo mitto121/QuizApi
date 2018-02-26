@@ -19,27 +19,21 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
         public QuizController()
         {
             _quizQueryServices = new QuizQueryServices();
-        }
+        }      
 
-        public Task<string[]> Get()
+        [HttpGet]   
+        [Route("api/Quiz/Quizes")]
+        public  ApiResponse<IEnumerable<QuizApiModel>> GetQuizes()
         {
-            var a = new string[] { "aa", "bb" };
-            return Task.FromResult(a);
-        }
-
-        [HttpGet]
-        [Route("Quizes")]
-        public Task<ApiResponse<IEnumerable<QuizApiModel>>> GetQuizes()
-        {
-            var response = _quizQueryServices.GetQuizes();
+            var response =  _quizQueryServices.GetQuizesAsync();
 
             return response;
         }
         [HttpGet]
-        [Route("Quize/{id}")]
-        public Task<QuizApiModel> GetQuizById(int Id)
+        [Route("api/Quiz/Quize/{id}")]
+        public  Task<QuizApiModel> GetQuizById(int Id)
         {
-            var response = _quizQueryServices.GetQuizById(Id);
+            var response =  _quizQueryServices.GetQuizById(Id);
 
             return response;
         }

@@ -52,40 +52,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Quiz.designer.cs">
+    <Compile Include="Data\Option.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Question.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Quiz.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Quiz.dbml</DependentUpon>
+      <DependentUpon>Quiz.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Quiz.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Quiz.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Quiz.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Quize.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\QuizResult.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\User.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="Data\Quiz.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Quiz.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+    <EntityDeploy Include="Data\Quiz.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Quiz.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="App.Config" />
+    <None Include="Data\Quiz.edmx.diagram">
+      <DependentUpon>Quiz.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Data\Quiz.dbml.layout">
-      <DependentUpon>Quiz.dbml</DependentUpon>
-    </None>
+    <Content Include="Data\Quiz.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Quiz.edmx</DependentUpon>
+      <LastGenOutput>Quiz.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Quiz.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Quiz.edmx</DependentUpon>
+      <LastGenOutput>Quiz.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

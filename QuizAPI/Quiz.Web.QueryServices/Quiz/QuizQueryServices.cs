@@ -1,40 +1,56 @@
 ﻿using Quiz.Web.APIModel;
 using Quiz.Web.APIModel.Quiz;
 using Quiz.Web.DataServices.Data;
+using Quiz.Web.QueryServices.ModelMapper;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Quiz.Web.QueryServices.Quiz
 {
     public class QuizQueryServices
     {
-        private readonly QuizDataContext _context;
+        private readonly QuizMasterDBEntities _context;
 
         public QuizQueryServices()
         {
-            _context = new QuizDataContext();
+            _context = new QuizMasterDBEntities();
 
         }
 
-        public  Task<ApiResponse<IEnumerable<QuizApiModel>>> GetQuizes()
+        public  ApiResponse<IEnumerable<QuizApiModel>> GetQuizesAsync()
         {
-            var response = new ApiResponse<IEnumerable<QuizApiModel>>();
-            //use db to get response
-            return  Task.FromResult(response);
+            var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
+
+            var quizesData =  (_context.Quizes).ToList();
+
+            quizes.TotalRecordCount = quizesData.Count();
+            quizes.Result = quizesData?.Select(x=>x.ToQuizApiModel());
+
+            return quizes;
         }
-        public Task<QuizApiModel> GetQuizById(int Id)
+        public  Task<QuizApiModel> GetQuizById(int Id)
         {
-            var response = new QuizApiModel();
-            //use db to get response
-            return Task.FromResult(response);
+            var quizdata = (_context.Quizes.Where(x => x.Id == Id)).FirstOrDefault();
+
+            var quizResult = quizdata.ToQuizApiModel();
+
+            return Task.FromResult(quizResult);
         }
-        public Task CreateQuiz(QuizApiModel quiz)
+        public Task CreateQuiz(QuizApiModel quizApiModel)
         {
-         
-            //save to db
+
+            var quiz = quizApiModel.ToQuize();
+            quiz.IsActive = true;
+            quiz.CreatedDate = DateTime.Now;
+
+            
+            _context.Quizes.Add(quiz);
+            _context.SaveChanges();
+          
+
             return Task.FromResult(0);
         }
         public Task UpdateQuiz(QuizApiModel quiz)

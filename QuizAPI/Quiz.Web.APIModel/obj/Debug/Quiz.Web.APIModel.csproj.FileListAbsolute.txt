@@ -3,3 +3,8 @@ C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.
 C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.dll
 C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.pdb
 C:\Users\Love Pal\Documents\Visual Studio 2015\Projects\QuizMaster\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.csprojResolveAssemblyReference.cache
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.dll
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.pdb
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.csprojResolveAssemblyReference.cache
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.dll
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.pdb

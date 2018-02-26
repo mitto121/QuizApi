@@ -13,17 +13,16 @@ namespace Quiz.Web.APIModel.UserAccount
         public string LastName { get; set; }
 
         public string Email { get; set; }
-
-        public string UserName { get; set; }
-
-        public string Password { get; set; }
+       
 
         public string AuthTokenValue { get; set; }
 
         public bool IsActive { get; set; }
 
-        public DateTime CreateDate { get; set; }       
+        public bool IsAdmin { get; set; }
 
-        public bool IsSucceeded { get; set; }
+        public DateTime CreatedDate { get; set; }       
+
+      
     }
 }

@@ -12,6 +12,7 @@ namespace Quiz.Web.APIModel.Quiz
         public string Name { get; set; }
         public Boolean IsActive { get; set; }
 
-        public IEnumerable<OptionApiModel> Option { get; set; }
+
+        public IEnumerable<OptionApiModel> Options { get; set; }
     }
 }

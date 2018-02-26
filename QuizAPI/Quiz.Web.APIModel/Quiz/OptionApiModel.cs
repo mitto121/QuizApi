@@ -12,6 +12,9 @@ namespace Quiz.Web.APIModel.Quiz
         public string Code { get; set; }
         public string Name { get; set; }
         public bool IsAnswer { get; set; }
+
+        public bool IsActive { get; set; }
+
         public bool IsSelected { get; set; }
     }
 }

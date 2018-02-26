@@ -13,6 +13,7 @@ namespace Quiz.Web.APIModel.Quiz
         public string Description { get; set; }
         public bool IsActive { get; set; }
 
+        public DateTime? CreatedDate { get; set; }
         public IEnumerable<QuestionApiModel> Questions { get; set; }
     }
 }
