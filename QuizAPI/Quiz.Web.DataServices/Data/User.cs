@@ -9,9 +9,8 @@
 
 namespace Quiz.Web.DataServices.Data
 {
-    using System;
     using System.Collections.Generic;
-    
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +18,6 @@ namespace Quiz.Web.DataServices.Data
         {
             this.QuizResults = new HashSet<QuizResult>();
         }
-    
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

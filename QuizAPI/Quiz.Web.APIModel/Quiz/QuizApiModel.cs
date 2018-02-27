@@ -11,7 +11,7 @@ namespace Quiz.Web.APIModel.Quiz
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public DateTime? CreatedDate { get; set; }
         public IEnumerable<QuestionApiModel> Questions { get; set; }

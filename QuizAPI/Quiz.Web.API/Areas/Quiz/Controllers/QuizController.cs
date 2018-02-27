@@ -1,17 +1,13 @@
 ﻿using Quiz.Web.APIModel;
 using Quiz.Web.APIModel.Quiz;
 using Quiz.Web.QueryServices.Quiz;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Quiz.Web.API.Areas.Quiz.Controllers
 {
-    
+
     [Route("api/Quiz")]
     public class QuizController : ApiController
     {
@@ -23,23 +19,23 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
 
         [HttpGet]   
         [Route("api/Quiz/Quizes")]
-        public  ApiResponse<IEnumerable<QuizApiModel>> GetQuizes()
+        public IHttpActionResult GetQuizes()
         {
             var response =  _quizQueryServices.GetQuizesAsync();
 
-            return response;
+            return Ok(response);
         }
         [HttpGet]
         [Route("api/Quiz/Quize/{id}")]
-        public  Task<QuizApiModel> GetQuizById(int Id)
+        public IHttpActionResult GetQuizById(int Id)
         {
             var response =  _quizQueryServices.GetQuizById(Id);
 
-            return response;
+            return Ok(response);
         }
 
         [HttpPost]
-        [Route("AddQuiz")]
+        [Route("api/Quiz/AddQuiz")]
         public Task CreateQuiz([FromBody]QuizApiModel Quiz)
         {
             var response = _quizQueryServices.CreateQuiz(Quiz);
@@ -48,7 +44,7 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateQuiz")]
+        [Route("api/Quiz/UpdateQuiz")]
         public Task UpdateQuiz([FromBody]QuizApiModel Quiz)
         {
             var response = _quizQueryServices.CreateQuiz(Quiz);
@@ -57,7 +53,7 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
         }
 
         [HttpDelete]
-        [Route("RemoveQuiz")]
+        [Route("api/Quiz/RemoveQuiz")]
         public Task DeleteQuiz(int Id)
         {
             var response = _quizQueryServices.DeleteQuiz(Id);

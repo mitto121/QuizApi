@@ -22,24 +22,34 @@ namespace Quiz.Web.API.Areas.UserAccount.Controllers
             _UserAccountQueryService = new UserAccountQueryService();
         }
         [HttpGet]
-        [Route("AuthenticateUser/{userName}/{password}")]
-        public async Task<ApiResponse<UserLoginApiModel>> AuthenticateUser(string userName, string password)
+        [Route("api/UserAccount/AuthenticateUser/{userName}/{password}")]
+        public IHttpActionResult AuthenticateUser(string userName, string password)
         {
             ApiResponse<UserLoginApiModel> apiResponse = new ApiResponse<UserLoginApiModel>();
 
 
-            apiResponse = await _UserAccountQueryService.AuthenticateUser(userName, password);
+            apiResponse =  _UserAccountQueryService.AuthenticateUser(userName, password);
 
             if (apiResponse.IsSucceeded)
             {
-                apiResponse.Result.AuthTokenValue = CreateToken(apiResponse.Result);
+                apiResponse.Result.AuthToken= CreateToken(apiResponse.Result);
             }
             else
             {
-                apiResponse.DisplayMessgae = "Login failed !!";
+                apiResponse.DisplayMessage = "Login failed !!";
             }
 
-            return apiResponse;
+            return Ok(apiResponse);
+        }
+
+        [HttpPost]
+        [Route("api/UserAccount/CreateUser")]
+        public IHttpActionResult UserRegistration([FromBody] UserAccountApiModel newUser)
+        {
+
+            var apiResponse = _UserAccountQueryService.CreateUserAccount(newUser);
+
+            return Ok(apiResponse);
         }
 
         private string CreateToken(UserLoginApiModel userLogin)

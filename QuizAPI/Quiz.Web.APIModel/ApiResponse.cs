@@ -3,7 +3,7 @@
      public class ApiResponse<T>
     {
        
-        public string DisplayMessgae { get; set; }
+        public string DisplayMessage { get; set; }
 
         public bool IsSucceeded { get; set; }
 

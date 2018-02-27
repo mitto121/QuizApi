@@ -54,6 +54,7 @@
     <Compile Include="ModelMapper\ApiModelToPersistanceModel.cs" />
     <Compile Include="ModelMapper\PersistanceModelToApiModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question\QuestionQueryServices.cs" />
     <Compile Include="Quiz\QuizQueryServices.cs" />
     <Compile Include="UserAccount\UserAccountQueryService.cs" />
   </ItemGroup>

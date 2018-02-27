@@ -104,3 +104,5 @@ C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\Antl
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\Quiz.Web.DataServices.pdb
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.dll
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.xml
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.SqlServer.dll
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.SqlServer.xml

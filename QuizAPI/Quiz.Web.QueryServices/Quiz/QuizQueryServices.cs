@@ -31,13 +31,13 @@ namespace Quiz.Web.QueryServices.Quiz
 
             return quizes;
         }
-        public  Task<QuizApiModel> GetQuizById(int Id)
+        public  QuizApiModel GetQuizById(int Id)
         {
             var quizdata = (_context.Quizes.Where(x => x.Id == Id)).FirstOrDefault();
 
             var quizResult = quizdata.ToQuizApiModel();
 
-            return Task.FromResult(quizResult);
+            return quizResult;
         }
         public Task CreateQuiz(QuizApiModel quizApiModel)
         {

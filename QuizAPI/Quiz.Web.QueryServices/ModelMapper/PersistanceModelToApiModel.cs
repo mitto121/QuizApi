@@ -7,21 +7,19 @@ namespace Quiz.Web.QueryServices.ModelMapper
 {
     public static class PersistanceModelToApiModel
     {
-        
+
         public static UserLoginApiModel ToUserLoginApiModel(this User userData)
         {
-            if(userData == null)
+            if (userData == null)
             {
                 return null;
             }
-            return new UserLoginApiModel {
+            return new UserLoginApiModel
+            {
                 Id = userData.Id,
-                FirstName = userData.FirstName,
-                LastName = userData.LastName,
-                Email = userData.Email,
-                IsAdmin=userData.IsAdmin,
-                CreatedDate=userData.CreatedDate               
-
+                UserName = userData.UserName,
+                IsAdmin = userData.IsAdmin,
+                IsActive = userData.IsActive
             };
         }
 
@@ -33,26 +31,27 @@ namespace Quiz.Web.QueryServices.ModelMapper
             }
             return new QuizApiModel
             {
-                Id=quize.Id,
-                Name=quize.Name,
-                Description=quize.Description,
-                IsActive=quize.IsActive,
-                CreatedDate=quize.CreatedDate,
-                Questions=quize.Questions?.Select(x=>x.ToQuestionApiModel())
+                Id = quize.Id,
+                Name = quize.Name,
+                Description = quize.Description,
+                IsActive = quize.IsActive,
+                CreatedDate = quize.CreatedDate,
+                Questions = quize.Questions?.Select(x => x.ToQuestionApiModel())
             };
         }
 
         public static QuestionApiModel ToQuestionApiModel(this Question question)
         {
-            if(question==null)
+            if (question == null)
             {
                 return null;
             }
-            return new QuestionApiModel {
+            return new QuestionApiModel
+            {
                 Id = question.Id,
                 Name = question.Name,
                 IsActive = question.IsActive,
-                Options = question.Options?.Select(x=>x.ToOptionApiModel())
+                Options = question.Options?.Select(x => x.ToOptionApiModel())
             };
         }
         public static OptionApiModel ToOptionApiModel(this Option option)
@@ -64,11 +63,11 @@ namespace Quiz.Web.QueryServices.ModelMapper
             return new OptionApiModel
             {
                 Id = option.Id,
-                Code=option.Code,
+                Code = option.Code,
                 Name = option.Name,
-                IsActive=option.IsActive,
-                IsAnswer=option.IsAnswer 
-                                              
+                IsActive = option.IsActive,
+                IsAnswer = option.IsAnswer
+
             };
         }
 
