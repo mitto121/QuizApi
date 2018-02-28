@@ -106,3 +106,6 @@ C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\Enti
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.xml
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.SqlServer.dll
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\EntityFramework.SqlServer.xml
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\System.Web.Cors.dll
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\System.Web.Http.Cors.dll
+C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.API\bin\System.Web.Http.Cors.xml

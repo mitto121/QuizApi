@@ -36,29 +36,30 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
 
         [HttpPost]
         [Route("api/Quiz/AddQuiz")]
-        public Task CreateQuiz([FromBody]QuizApiModel Quiz)
+        public IHttpActionResult CreateQuiz([FromBody]QuizApiModel Quiz)
         {
             var response = _quizQueryServices.CreateQuiz(Quiz);
 
-            return Task.FromResult(0);
+            return Ok(response);
+        }
+        [HttpDelete]
+        [Route("api/Quiz/RemoveQuiz")]
+        public IHttpActionResult DeleteQuiz(int Id)
+        {
+            var response = _quizQueryServices.DeleteQuiz(Id);
+
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("api/Quiz/UpdateQuiz")]
-        public Task UpdateQuiz([FromBody]QuizApiModel Quiz)
+        public IHttpActionResult UpdateQuiz([FromBody]QuizApiModel Quiz)
         {
             var response = _quizQueryServices.CreateQuiz(Quiz);
 
-            return Task.FromResult(0);
+            return Ok(response);
         }
 
-        [HttpDelete]
-        [Route("api/Quiz/RemoveQuiz")]
-        public Task DeleteQuiz(int Id)
-        {
-            var response = _quizQueryServices.DeleteQuiz(Id);
-
-            return Task.FromResult(0);
-        }
+       
     }
 }

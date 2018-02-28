@@ -20,11 +20,11 @@ namespace Quiz.Web.QueryServices.Quiz
 
         }
 
-        public  ApiResponse<IEnumerable<QuizApiModel>> GetQuizesAsync()
+        public ApiResponse<IEnumerable<QuizApiModel>> GetQuizesAsync()
         {
             var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
 
-            var quizesData =  (_context.Quizes).ToList();
+            var quizesData =  _context.Quizes.Where(x=>x.IsActive).ToList();
 
             quizes.TotalRecordCount = quizesData.Count();
             quizes.Result = quizesData?.Select(x=>x.ToQuizApiModel());
@@ -33,25 +33,27 @@ namespace Quiz.Web.QueryServices.Quiz
         }
         public  QuizApiModel GetQuizById(int Id)
         {
-            var quizdata = (_context.Quizes.Where(x => x.Id == Id)).FirstOrDefault();
+            var quizdata = _context.Quizes.Where(x => x.Id == Id && x.IsActive).FirstOrDefault();
 
             var quizResult = quizdata.ToQuizApiModel();
 
             return quizResult;
         }
-        public Task CreateQuiz(QuizApiModel quizApiModel)
+        public ApiResponse<QuizApiModel> CreateQuiz(QuizApiModel quizApiModel)
         {
+            var response = new ApiResponse<QuizApiModel>();
 
             var quiz = quizApiModel.ToQuize();
-            quiz.IsActive = true;
             quiz.CreatedDate = DateTime.Now;
 
-            
             _context.Quizes.Add(quiz);
-            _context.SaveChanges();
-          
+            int rowAffected=_context.SaveChanges();
 
-            return Task.FromResult(0);
+            response.IsSucceeded = rowAffected > 0;
+            quizApiModel.Id = quiz.Id;
+            response.Result = quizApiModel;
+
+            return response;
         }
         public Task UpdateQuiz(QuizApiModel quiz)
         {
@@ -59,11 +61,13 @@ namespace Quiz.Web.QueryServices.Quiz
             //save to db
             return Task.FromResult(0);
         }
-        public Task DeleteQuiz(int Id)
+        public bool DeleteQuiz(int Id)
         {
-            var response = new QuizApiModel();
-            //use db to get response
-            return Task.FromResult(0);
+            var quiz = _context.Quizes.Where(x => x.Id == Id).FirstOrDefault();
+            quiz.IsActive = false;
+            _context.Entry(quiz).State = EntityState.Modified;
+            int rowAffected=_context.SaveChanges();
+            return rowAffected>0;
         }
 
     }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Quiz.Web.QueryServices.Questions
+namespace Quiz.Web.QueryServices
 {
     public class QuestionQueryServices
     {
@@ -26,11 +26,27 @@ namespace Quiz.Web.QueryServices.Questions
         }
         public bool CreateQuestion(QuestionApiModel question)
         {
-            Question dataModel = question.ToQuestion();
-            _context.Questions.Add(dataModel);
-            int rowAffected = _context.SaveChanges();
-            return rowAffected > 0;
+            Question questionModel = question.ToQuestion();
+            _context.Questions.Add(questionModel);
+            _context.SaveChanges();
+
+            var options = question.Options?.Select(x => x.ToOption(questionModel.Id));
+            _context.Options.AddRange(options);
+            _context.SaveChanges();
+
+            return true;
         }
+
+        public bool RemoveQuestion(int Id)
+        {
+            var question = (_context.Questions.Where(x => x.Id == Id)).FirstOrDefault();
+            question.IsActive = false;
+            _context.Entry(question).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
+
+            return true;
+        }
+
 
     }
 }

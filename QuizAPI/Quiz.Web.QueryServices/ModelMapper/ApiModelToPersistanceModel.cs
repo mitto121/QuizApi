@@ -14,27 +14,12 @@ namespace Quiz.Web.QueryServices.ModelMapper
             {
                 Name = quizApiModel.Name,
                 Description = quizApiModel.Description,                
-                CreatedDate = quizApiModel.CreatedDate,
-                Questions=quizApiModel.Questions.ToQuestions(),
+                CreatedDate = quizApiModel.CreatedDate,              
                 IsActive=quizApiModel.IsActive                
             };
         }
 
-        public static ICollection<Question> ToQuestions(this IEnumerable<QuestionApiModel> questions)
-        {
-            if(questions==null)
-            {
-                return null;
-            }
-            return questions?.Select(x => new Question
-            {
-                Name=x.Name,
-                IsActive=x.IsActive,
-                QuizId=x.QuizId,               
-                Options =x.Options.ToOptionModel()                
-            }) as ICollection<Question>;
-        }
-
+       
         public static Question ToQuestion(this QuestionApiModel questions)
         {
             if (questions == null)
@@ -45,19 +30,24 @@ namespace Quiz.Web.QueryServices.ModelMapper
             {
                 Name = questions.Name,
                 IsActive = questions.IsActive,
-                QuizId =   questions.QuizId,
-                Options = questions.Options.ToOptionModel()
+                QuizId =   questions.QuizId               
             };
         }
-        public static ICollection<Option> ToOptionModel(this IEnumerable<OptionApiModel> optionApiModel)
+     
+        public static Option ToOption(this OptionApiModel optionApiModel,int questionId)
         {
-            return optionApiModel?.Select(option=> new Option
+            if (optionApiModel == null)
             {
-                Code= option.Code,
-                Name = option.Name,
-                IsActive=option.IsActive,
-                IsAnswer=option.IsAnswer,                
-            }) as ICollection<Option>;
+                return null;
+            }
+            return new Option
+            {
+                Code = optionApiModel.Code,
+                Name = optionApiModel.Name,
+                IsActive = optionApiModel.IsActive,
+                IsAnswer = optionApiModel.IsAnswer,
+                QuestionId=questionId               
+            };
         }
 
         public static User ToUser(this UserAccountApiModel userAccountApiModel)
