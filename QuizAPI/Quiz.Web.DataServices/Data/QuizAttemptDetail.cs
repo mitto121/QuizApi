@@ -12,25 +12,22 @@ namespace Quiz.Web.DataServices.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class QuizAttemptDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public QuizAttemptDetail()
         {
-            this.QuizAttemptDetails = new HashSet<QuizAttemptDetail>();
+            this.QuizResults = new HashSet<QuizResult>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsAdmin { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime AttemptDate { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public Nullable<int> QuizId { get; set; }
     
+        public virtual Quize Quize { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuizAttemptDetail> QuizAttemptDetails { get; set; }
+        public virtual ICollection<QuizResult> QuizResults { get; set; }
     }
 }

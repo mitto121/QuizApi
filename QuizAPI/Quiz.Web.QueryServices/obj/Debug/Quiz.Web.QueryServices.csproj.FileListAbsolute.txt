@@ -21,3 +21,17 @@ C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.QueryService
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.xml
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.QueryServices.dll.config
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.QueryServices.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.QueryServices.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.APIModel.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.DataServices.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.APIModel.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\Quiz.Web.DataServices.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.xml
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\obj\Debug\Quiz.Web.QueryServices.csprojResolveAssemblyReference.cache
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\obj\Debug\Quiz.Web.QueryServices.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.QueryServices\obj\Debug\Quiz.Web.QueryServices.pdb

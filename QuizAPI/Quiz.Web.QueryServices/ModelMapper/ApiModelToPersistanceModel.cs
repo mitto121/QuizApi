@@ -13,7 +13,9 @@ namespace Quiz.Web.QueryServices.ModelMapper
             return new Quize()
             {
                 Name = quizApiModel.Name,
-                Description = quizApiModel.Description,                
+                Description = quizApiModel.Description,           
+                Duration=quizApiModel.Duration,
+                PassingPercentage=quizApiModel.PassingPercentage,     
                 CreatedDate = quizApiModel.CreatedDate,              
                 IsActive=quizApiModel.IsActive                
             };

@@ -15,6 +15,18 @@ namespace Quiz.Web.APIModel.Quiz
 
         public bool IsActive { get; set; } = true;
 
-        public bool IsSelected { get; set; }
+        public int? SelectedOptionId { get; set; }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return Id == SelectedOptionId;
+            }
+            set {
+                
+                SelectedOptionId = value ? Id : (int?)null;
+            }
+        }
     }
 }

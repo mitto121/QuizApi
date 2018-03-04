@@ -14,16 +14,13 @@ namespace Quiz.Web.DataServices.Data
     
     public partial class QuizResult
     {
-        public int Id { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public Nullable<int> QuizId { get; set; }
+        public int SNo { get; set; }
+        public Nullable<int> AttemptId { get; set; }
         public Nullable<int> QuestionId { get; set; }
-        public Nullable<int> SelectedOptionId { get; set; }
-        public System.DateTime AttemptDate { get; set; }
+        public Nullable<int> SelectedAnswer { get; set; }
     
         public virtual Option Option { get; set; }
         public virtual Question Question { get; set; }
-        public virtual Quize Quize { get; set; }
-        public virtual User User { get; set; }
+        public virtual QuizAttemptDetail QuizAttemptDetail { get; set; }
     }
 }

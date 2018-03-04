@@ -18,3 +18,13 @@ C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.DataServices
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.csprojResolveAssemblyReference.cache
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.dll
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\Quiz.Web.DataServices.dll.config
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\Quiz.Web.DataServices.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\Quiz.Web.DataServices.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\EntityFramework.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\EntityFramework.xml
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.csprojResolveAssemblyReference.cache
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\obj\Debug\Quiz.Web.DataServices.pdb

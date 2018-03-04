@@ -34,6 +34,8 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 Id = quize.Id,
                 Name = quize.Name,
                 Description = quize.Description,
+                Duration=quize.Duration,
+                PassingPercentage=quize.PassingPercentage,
                 IsActive = quize.IsActive,
                 CreatedDate = quize.CreatedDate,
                 Questions = quize.Questions?.Select(x => x.ToQuestionApiModel())

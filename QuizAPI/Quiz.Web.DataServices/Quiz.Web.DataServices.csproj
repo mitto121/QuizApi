@@ -73,6 +73,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Quiz.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\QuizAttemptDetail.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Quize.cs">
       <DependentUpon>Quiz.tt</DependentUpon>
     </Compile>

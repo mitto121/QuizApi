@@ -8,3 +8,8 @@ C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\bin
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.csprojResolveAssemblyReference.cache
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.dll
 C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.APIModel\bin\Debug\Quiz.Web.APIModel.pdb
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.csprojResolveAssemblyReference.cache
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.dll
+C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.APIModel\obj\Debug\Quiz.Web.APIModel.pdb

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\mitto.pal\Desktop\QuizApplication\QuizApi\QuizAPI\Quiz.Web.DataServices\Data\Quiz.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Love Pal\Desktop\Angular App\Quiz App\QuizApi\QuizAPI\Quiz.Web.DataServices\Data\Quiz.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

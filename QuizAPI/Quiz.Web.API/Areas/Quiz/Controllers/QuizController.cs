@@ -60,6 +60,29 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
             return Ok(response);
         }
 
-       
+        [HttpGet]
+        [Route("api/Quiz/CheckQuizHasAttempted/{quizId}/{userId}")]
+        public IHttpActionResult CheckQuizHasAttempted(int quizId,int userId)
+        {
+            var response = _quizQueryServices.CheckQuizHasAttempted(quizId,userId);            
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("api/Quiz/SubmitQuiz/{userId}")]
+        public IHttpActionResult SubmitQuiz(int userId, [FromBody]QuizApiModel Quiz)
+        {
+            var response = _quizQueryServices.SubmitQuiz(userId,Quiz);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("api/Quiz/QuizResult/{quizId}/{userId}")]
+        public IHttpActionResult GetQuizResult(int quizId, int userId)
+        {
+            var response = _quizQueryServices.GetQuizResults(quizId, userId);
+            return Ok(response);
+        }
     }
 }

@@ -20,6 +20,15 @@
     <Property Name="QuizId" Type="int" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="QuizAttemptDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttemptDate" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="QuizId" Type="int" />
+  </EntityType>
   <EntityType Name="Quizes">
     <Key>
       <PropertyRef Name="Id" />
@@ -27,19 +36,19 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
     <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Duration" Type="int" Nullable="false" />
+    <Property Name="PassingPercentage" Type="int" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
-  <EntityType Name="QuizResult">
+  <EntityType Name="QuizResults">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="SNo" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserId" Type="int" />
-    <Property Name="QuizId" Type="int" />
+    <Property Name="SNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttemptId" Type="int" />
     <Property Name="QuestionId" Type="int" />
-    <Property Name="SelectedOptionId" Type="int" />
-    <Property Name="AttemptDate" Type="datetime" Nullable="false" />
+    <Property Name="SelectedAnswer" Type="int" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -49,11 +58,11 @@
     <Property Name="FirstName" Type="nvarchar" MaxLength="120" />
     <Property Name="LastName" Type="nvarchar" MaxLength="120" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
-    <Property Name="Password" Type="nvarchar" MaxLength="80" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="80" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
     <Property Name="IsAdmin" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__Questio__267ABA7A">
     <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
@@ -79,59 +88,72 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Quest__2F10007B">
-    <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
-    <End Role="QuizResult" Type="Self.QuizResult" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Questions">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="QuizResult">
-        <PropertyRef Name="QuestionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__QuizResul__QuizI__2E1BDC42">
+  <Association Name="FK__QuizAttem__QuizI__33D4B598">
     <End Role="Quizes" Type="Self.Quizes" Multiplicity="0..1" />
-    <End Role="QuizResult" Type="Self.QuizResult" Multiplicity="*" />
+    <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Quizes">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="QuizResult">
+      <Dependent Role="QuizAttemptDetails">
         <PropertyRef Name="QuizId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Selec__300424B4">
-    <End Role="Options" Type="Self.Options" Multiplicity="0..1" />
-    <End Role="QuizResult" Type="Self.QuizResult" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Options">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="QuizResult">
-        <PropertyRef Name="SelectedOptionId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__QuizResul__UserI__2D27B809">
+  <Association Name="FK__QuizAttem__UserI__32E0915F">
     <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-    <End Role="QuizResult" Type="Self.QuizResult" Multiplicity="*" />
+    <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Users">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="QuizResult">
+      <Dependent Role="QuizAttemptDetails">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuizResul__Attem__47DBAE45">
+    <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="0..1" />
+    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuizAttemptDetails">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizResults">
+        <PropertyRef Name="AttemptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuizResul__Quest__48CFD27E">
+    <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
+    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizResults">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuizResul__Selec__49C3F6B7">
+    <End Role="Options" Type="Self.Options" Multiplicity="0..1" />
+    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Options">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizResults">
+        <PropertyRef Name="SelectedAnswer" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="QuizMasterDBModelStoreContainer">
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuizAttemptDetails" EntityType="Self.QuizAttemptDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quizes" EntityType="Self.Quizes" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="QuizResult" EntityType="Self.QuizResult" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuizResults" EntityType="Self.QuizResults" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Options__Questio__267ABA7A" Association="Self.FK__Options__Questio__267ABA7A">
       <End Role="Questions" EntitySet="Questions" />
@@ -141,21 +163,25 @@
       <End Role="Quizes" EntitySet="Quizes" />
       <End Role="Questions" EntitySet="Questions" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Quest__2F10007B" Association="Self.FK__QuizResul__Quest__2F10007B">
-      <End Role="Questions" EntitySet="Questions" />
-      <End Role="QuizResult" EntitySet="QuizResult" />
-    </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__QuizI__2E1BDC42" Association="Self.FK__QuizResul__QuizI__2E1BDC42">
+    <AssociationSet Name="FK__QuizAttem__QuizI__33D4B598" Association="Self.FK__QuizAttem__QuizI__33D4B598">
       <End Role="Quizes" EntitySet="Quizes" />
-      <End Role="QuizResult" EntitySet="QuizResult" />
+      <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Selec__300424B4" Association="Self.FK__QuizResul__Selec__300424B4">
-      <End Role="Options" EntitySet="Options" />
-      <End Role="QuizResult" EntitySet="QuizResult" />
-    </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__UserI__2D27B809" Association="Self.FK__QuizResul__UserI__2D27B809">
+    <AssociationSet Name="FK__QuizAttem__UserI__32E0915F" Association="Self.FK__QuizAttem__UserI__32E0915F">
       <End Role="Users" EntitySet="Users" />
-      <End Role="QuizResult" EntitySet="QuizResult" />
+      <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuizResul__Attem__47DBAE45" Association="Self.FK__QuizResul__Attem__47DBAE45">
+      <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
+      <End Role="QuizResults" EntitySet="QuizResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuizResul__Quest__48CFD27E" Association="Self.FK__QuizResul__Quest__48CFD27E">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="QuizResults" EntitySet="QuizResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuizResul__Selec__49C3F6B7" Association="Self.FK__QuizResul__Selec__49C3F6B7">
+      <End Role="Options" EntitySet="Options" />
+      <End Role="QuizResults" EntitySet="QuizResults" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
