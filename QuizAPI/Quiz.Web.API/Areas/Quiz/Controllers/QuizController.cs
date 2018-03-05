@@ -51,11 +51,11 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/Quiz/UpdateQuiz")]
         public IHttpActionResult UpdateQuiz([FromBody]QuizApiModel Quiz)
         {
-            var response = _quizQueryServices.CreateQuiz(Quiz);
+            var response = _quizQueryServices.UpdateQuiz(Quiz);
 
             return Ok(response);
         }

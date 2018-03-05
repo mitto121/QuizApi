@@ -22,6 +22,14 @@ namespace Quiz.Web.API.Areas.Question
         }
 
         [HttpGet]
+        [Route("api/Question/GetQuestion/{id}")]
+        public IHttpActionResult GetQuestionById(int Id)
+        {
+            var response = _questionQueryServices.GetQuestionById(Id);
+
+            return Ok(response);
+        }
+        [HttpGet]
         [Route("api/Question/GetQuestionsByQuizId/{id}")]
         public IHttpActionResult GetQuestionsByQuizId(int Id)
         {
@@ -43,6 +51,13 @@ namespace Quiz.Web.API.Areas.Question
         public IHttpActionResult RemoveQuestion(int questionId)
         {
             var response = _questionQueryServices.RemoveQuestion(questionId);
+            return Ok(response);
+        }
+        [HttpPut]
+        [Route("api/Question/ActivateQuestion")]
+        public IHttpActionResult ActivateQuestion(int questionId)
+        {
+            var response = _questionQueryServices.ActivateQuestion(questionId);
             return Ok(response);
         }
     }

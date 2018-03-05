@@ -18,9 +18,16 @@ namespace Quiz.Web.QueryServices
             _context = new QuizMasterDBEntities();
         }
 
+        public QuestionApiModel GetQuestionById(int Id)
+        {
+            var question = _context.Questions.FirstOrDefault(x => x.Id == Id);
+
+            return question?.ToQuestionApiModel();
+        }
+
         public IEnumerable<QuestionApiModel> GetQuestionsByQuizId(int Id)
         {
-            var quizdata = (_context.Quizes.Where(x => x.Id == Id)).FirstOrDefault();
+            var quizdata = (_context.Quizes.Where(x => x.Id == Id && x.IsActive)).FirstOrDefault();
 
             return quizdata.Questions?.Select(x => x.ToQuestionApiModel());
         }
@@ -46,7 +53,15 @@ namespace Quiz.Web.QueryServices
 
             return true;
         }
+        public bool ActivateQuestion(int Id)
+        {
+            var question = (_context.Questions.Where(x => x.Id == Id)).FirstOrDefault();
+            question.IsActive = true;
+            _context.Entry(question).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
 
+            return true;
+        }
 
     }
 }

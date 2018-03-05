@@ -24,8 +24,7 @@ namespace Quiz.Web.QueryServices.Quiz
         {
             var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
 
-            var quizesData = _context.Quizes.Where(x => x.IsActive).ToList();
-
+            var quizesData = _context.Quizes.Where(x => x.IsActive).ToList();            
             quizes.TotalRecordCount = quizesData.Count();
             quizes.Result = quizesData?.Select(x => x.ToQuizApiModel());
 
@@ -34,6 +33,7 @@ namespace Quiz.Web.QueryServices.Quiz
         public QuizApiModel GetQuizById(int Id)
         {
             var quizdata = _context.Quizes.Where(x => x.Id == Id && x.IsActive).FirstOrDefault();
+            quizdata.Questions = quizdata.Questions.Where(x => x.IsActive).ToList();
 
             var quizResult = quizdata.ToQuizApiModel();
 
@@ -55,11 +55,23 @@ namespace Quiz.Web.QueryServices.Quiz
 
             return response;
         }
-        public Task UpdateQuiz(QuizApiModel quiz)
+        public ApiResponse<QuizApiModel> UpdateQuiz(QuizApiModel quizApiModel)
         {
 
-            //save to db
-            return Task.FromResult(0);
+            var response = new ApiResponse<QuizApiModel>();
+
+            var quiz = _context.Quizes.FirstOrDefault(x => x.Id == quizApiModel.Id);
+            quiz.Description = quizApiModel.Description;
+            quiz.Duration = quizApiModel.Duration;
+            quiz.PassingPercentage = quizApiModel.PassingPercentage;
+
+            _context.Entry(quiz).State = EntityState.Modified;
+            int rowAffected = _context.SaveChanges();
+
+            response.IsSucceeded = rowAffected > 0;          
+            response.Result = quizApiModel;
+
+            return response;
         }
         public bool DeleteQuiz(int Id)
         {
