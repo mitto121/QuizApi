@@ -45,6 +45,13 @@ namespace Quiz.Web.API.Areas.Question
             var response = _questionQueryServices.CreateQuestion(question);
             return Ok(response);
         }
+        [HttpPut]
+        [Route("api/Question/UpdateQuestion")]
+        public IHttpActionResult UpdateQuestion([FromBody]QuestionApiModel question)
+        {
+            var response = _questionQueryServices.UpdateQuestion(question);
+            return Ok(response);
+        }
 
         [HttpDelete]
         [Route("api/Question/RemoveQuestion")]

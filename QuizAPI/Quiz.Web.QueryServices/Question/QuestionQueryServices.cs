@@ -3,6 +3,7 @@ using Quiz.Web.DataServices.Data;
 using Quiz.Web.QueryServices.ModelMapper;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,9 +40,33 @@ namespace Quiz.Web.QueryServices
 
             var options = question.Options?.Select(x => x.ToOption(questionModel.Id));
             _context.Options.AddRange(options);
-            _context.SaveChanges();
+            int rowAffected=_context.SaveChanges();
 
-            return true;
+            return rowAffected>0;
+        }
+        public bool UpdateQuestion(QuestionApiModel questionApiModel)
+        {
+
+            var question=_context.Questions.FirstOrDefault(x => x.Id == questionApiModel.Id);
+            question.Name = questionApiModel.Name;
+            _context.Entry(question).State = EntityState.Modified;
+
+            List<Option> options = new List<Option>();
+            questionApiModel.Options.ToList().ForEach(
+               x => options.Add(question.Options
+               .Where(o => o.Code == x.Code)
+               .Select(s => { s.Name = x.Name;return s; })
+               .FirstOrDefault()));
+                
+
+            foreach (var option in options)
+            {
+                _context.Entry(option).State = EntityState.Modified;
+            }
+
+            int rowAffected = _context.SaveChanges();
+
+            return rowAffected > 0;
         }
 
         public bool RemoveQuestion(int Id)
