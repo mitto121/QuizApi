@@ -24,7 +24,7 @@ namespace Quiz.Web.QueryServices.Quiz
         {
             var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
 
-            var quizesData = _context.Quizes.Where(x => x.IsActive).ToList();            
+            var quizesData = _context.Quizes.Where(x => x.IsActive).ToList();
             quizes.TotalRecordCount = quizesData.Count();
             quizes.Result = quizesData?.Select(x => x.ToQuizApiModel());
 
@@ -68,7 +68,7 @@ namespace Quiz.Web.QueryServices.Quiz
             _context.Entry(quiz).State = EntityState.Modified;
             int rowAffected = _context.SaveChanges();
 
-            response.IsSucceeded = rowAffected > 0;          
+            response.IsSucceeded = rowAffected > 0;
             response.Result = quizApiModel;
 
             return response;
@@ -84,13 +84,13 @@ namespace Quiz.Web.QueryServices.Quiz
 
         public bool CheckQuizHasAttempted(int quizId, int userId)
         {
-            var quiz= _context.QuizAttemptDetails.Where(x => x.QuizId == quizId && x.UserId == userId).ToList();
-            return (quiz!=null && quiz.Count()>0);
-           
+            var quiz = _context.QuizAttemptDetails.Where(x => x.QuizId == quizId && x.UserId == userId).ToList();
+            return (quiz != null && quiz.Count() > 0);
+
         }
         public bool SubmitQuiz(int userId, QuizApiModel quizApiModel)
         {
-           
+
             var QuizAttemptModel = new QuizAttemptDetail
             {
                 AttemptDate = DateTime.Now,
@@ -105,49 +105,86 @@ namespace Quiz.Web.QueryServices.Quiz
             {
                 AttemptId = QuizAttemptModel.Id,
                 QuestionId = x.Id,
-                SelectedAnswer = x.Options.Where(o=>o.SelectedOptionId.HasValue).FirstOrDefault()?.Id
+                SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id
             });
 
             _context.QuizResults.AddRange(quizResultModel);
-            int r= _context.SaveChanges();
+            int r = _context.SaveChanges();
 
-           
-            return r>0;
+
+            return r > 0;
         }
 
-        public QuizApiModel GetQuizResults(int quizId, int userId)
+        public QuizResultApiModel GetQuizResults(int quizId, int userId)
         {
-            var data = _context.Quizes.Join(_context.QuizAttemptDetails,
+            var quizResult = _context.Quizes.Join(_context.QuizAttemptDetails,
                 q => q.Id, a => a.QuizId, (q, a) => new { q, a }
                 ).Where(x => x.q.Id == quizId && x.a.UserId == userId)
                 .Select(
-                  o=>new QuizApiModel {
-                      Id=o.q.Id,
-                      Name=o.q.Name,
-                      Description=o.q.Description,
-                      Duration=o.q.Duration,
-                      PassingPercentage=o.q.PassingPercentage ,                   
-                      Questions=o.q.Questions.Join(o.a.QuizResults,n=>n.Id,m=>m.QuestionId,(n,m)=>new{ n,m})
-                      .Select(x=>new QuestionApiModel {
-                          Id=x.n.Id,
-                          Name= x.n.Name,
-                          IsActive= x.n.IsActive,
-                          Options= x.n.Options.Select(r=>new OptionApiModel {
-                              Id=r.Id,
-                              Code=r.Code,
-                              Name=r.Name,
-                              SelectedOptionId=x.m.SelectedAnswer,
-                              IsAnswer=r.IsAnswer                              
+                  o => new QuizResultApiModel
+                  {
+                      Id = o.q.Id,
+                      Name = o.q.Name,
+                      Description = o.q.Description,
+                      Duration = o.q.Duration,
+                      PassingPercentage = o.q.PassingPercentage,
+                      AttemptDate=o.a.AttemptDate,
+                      Questions = o.q.Questions.Join(o.a.QuizResults, n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
+                      .Select(x => new QuestionApiModel
+                      {
+                          Id = x.n.Id,
+                          Name = x.n.Name,
+                          IsActive = x.n.IsActive,
+                          Options = x.n.Options.Select(r => new OptionApiModel
+                          {
+                              Id = r.Id,
+                              Code = r.Code,
+                              Name = r.Name,
+                              SelectedOptionId = x.m.SelectedAnswer,
+                              IsAnswer = r.IsAnswer
                           })
                       })
                   }
-                ).FirstOrDefault();              
-                
-            
+                ).FirstOrDefault();
 
-            return data;
-            
+            setResult(quizResult);
+
+            return quizResult;
+
 
         }
+
+        private void setResult(QuizResultApiModel quizResult)
+        {
+            int totalAttempt=0, totalCorrectAnswer =0;
+            foreach (var question in quizResult.Questions)
+            {
+                totalAttempt += question.Options.Where(x => x.IsSelected).Count()>0 ? 1 : 0;
+                totalCorrectAnswer += question.Options.Where(x => x.IsSelected && x.IsSelected == x.IsAnswer).Count() > 0 ? 1 : 0;
+            }
+            quizResult.TotalQuestions = quizResult.Questions.Count();
+            quizResult.TotalQuestionsAttempt = totalAttempt;
+            quizResult.TotalCorrectAnswer = totalCorrectAnswer;
+            quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;          
+           
+            decimal marksPercentage = ((totalCorrectAnswer / quizResult.TotalQuestions) * 100);
+            quizResult.ResultStatus= Math.Ceiling(marksPercentage) >=quizResult.PassingPercentage?"Pass":"Fail";
+        }
+
+        public IEnumerable<QuizParticipantModel> GetQuizParticipants(int quizId)
+        {
+            return _context.QuizAttemptDetails
+                .Join(_context.Users, qa => qa.UserId, u => u.Id, (qa, u) => new { qa, u })
+                .Where(f => f.qa.QuizId == quizId)
+                .Select(x => new QuizParticipantModel
+                {
+                    Id = x.qa.UserId.Value,
+                    FirstName = x.u.FirstName,
+                    LastName = x.u.LastName,
+                    QuizId=x.qa.QuizId.Value,
+                    AttemptDate = x.qa.AttemptDate
+                });
+        }
+
     }
 }

@@ -45,6 +45,8 @@
     <Compile Include="Quiz\OptionApiModel.cs" />
     <Compile Include="Quiz\QuestionApiModel.cs" />
     <Compile Include="Quiz\QuizApiModel.cs" />
+    <Compile Include="Quiz\QuizParticipantModel.cs" />
+    <Compile Include="Quiz\QuizResultApiModel.cs" />
     <Compile Include="Shared\Utility.cs" />
     <Compile Include="UserAccount\UserAccountApiModel.cs" />
     <Compile Include="UserAccount\UserLoginApiModel.cs" />

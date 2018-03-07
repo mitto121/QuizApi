@@ -84,5 +84,15 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
             var response = _quizQueryServices.GetQuizResults(quizId, userId);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("api/Quiz/QuizParticipants/{quizId}")]
+        public IHttpActionResult GetQuizParticipants(int quizId)
+        {
+            var response = _quizQueryServices.GetQuizParticipants(quizId);
+
+            return Ok(response);
+        }
+
     }
 }
