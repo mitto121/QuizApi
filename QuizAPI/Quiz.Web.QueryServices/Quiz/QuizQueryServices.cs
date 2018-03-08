@@ -165,10 +165,11 @@ namespace Quiz.Web.QueryServices.Quiz
             quizResult.TotalQuestions = quizResult.Questions.Count();
             quizResult.TotalQuestionsAttempt = totalAttempt;
             quizResult.TotalCorrectAnswer = totalCorrectAnswer;
-            quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;          
+            quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
+
            
-            decimal marksPercentage = ((totalCorrectAnswer / quizResult.TotalQuestions) * 100);
-            quizResult.ResultStatus= Math.Ceiling(marksPercentage) >=quizResult.PassingPercentage?"Pass":"Fail";
+            decimal marksPercentage = getMarksInPercentage(totalCorrectAnswer , quizResult.TotalQuestions);
+            quizResult.ResultStatus= Math.Round(marksPercentage) >=quizResult.PassingPercentage?"Pass":"Fail";
         }
 
         public IEnumerable<QuizParticipantModel> GetQuizParticipants(int quizId)
@@ -185,6 +186,13 @@ namespace Quiz.Web.QueryServices.Quiz
                     AttemptDate = x.qa.AttemptDate
                 });
         }
+
+        private decimal getMarksInPercentage(decimal totalCorrectAnswer,decimal totalQuestions)
+        {
+            return (totalCorrectAnswer / totalQuestions) * 100;
+        }
+
+       
 
     }
 }

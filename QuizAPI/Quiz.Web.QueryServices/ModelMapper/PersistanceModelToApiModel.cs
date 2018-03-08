@@ -53,6 +53,7 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 Id = question.Id,
                 Name = question.Name,
                 IsActive = question.IsActive,
+                QuizId=question.QuizId.Value,
                 Options = question.Options?.Select(x => x.ToOptionApiModel())
             };
         }

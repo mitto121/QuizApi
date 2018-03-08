@@ -21,6 +21,16 @@ namespace Quiz.Web.API.Areas.Question
             _questionQueryServices = new QuestionQueryServices();
         }
 
+
+        [HttpGet]
+        [Route("api/Question/Questions")]
+        public IHttpActionResult GetQuestions()
+        {
+            var response = _questionQueryServices.GetQuestions();
+
+            return Ok(response);
+        }
+
         [HttpGet]
         [Route("api/Question/GetQuestion/{id}")]
         public IHttpActionResult GetQuestionById(int Id)
@@ -65,6 +75,14 @@ namespace Quiz.Web.API.Areas.Question
         public IHttpActionResult ActivateQuestion(int questionId)
         {
             var response = _questionQueryServices.ActivateQuestion(questionId);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("api/Question/AddQuestionsToQuiz")]
+        public IHttpActionResult AddQuestionsToQuiz([FromBody] PostQuizQuestionRequestModel quizQuestionRequest)
+        {
+            var response = _questionQueryServices.AddQuestionsToQuiz(quizQuestionRequest);
             return Ok(response);
         }
     }
