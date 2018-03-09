@@ -5,6 +5,7 @@ using Quiz.Web.QueryServices.ModelMapper;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -88,31 +89,41 @@ namespace Quiz.Web.QueryServices.Quiz
             return (quiz != null && quiz.Count() > 0);
 
         }
-        public bool SubmitQuiz(int userId, QuizApiModel quizApiModel)
+        public Task SubmitQuiz(int userId, QuizApiModel quizApiModel)
         {
-
-            var QuizAttemptModel = new QuizAttemptDetail
+            using (DbContextTransaction dbTran = _context.Database.BeginTransaction())
             {
-                AttemptDate = DateTime.Now,
-                QuizId = quizApiModel.Id,
-                UserId = userId
-            };
-            _context.QuizAttemptDetails.Add(QuizAttemptModel);
-            _context.SaveChanges();
+                try
+                {
+                    var QuizAttemptModel = new QuizAttemptDetail
+                    {
+                        AttemptDate = DateTime.Now,
+                        QuizId = quizApiModel.Id,
+                        UserId = userId
+                    };
+                    _context.QuizAttemptDetails.Add(QuizAttemptModel);
+                    _context.SaveChanges();
 
 
-            var quizResultModel = quizApiModel.Questions?.Select(x => new QuizResult
-            {
-                AttemptId = QuizAttemptModel.Id,
-                QuestionId = x.Id,
-                SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id
-            });
+                    var quizResultModel = quizApiModel.Questions?.Select(x => new QuizResult
+                    {
+                        AttemptId = QuizAttemptModel.Id,
+                        QuestionId = x.Id,
+                        SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id
+                    });
 
-            _context.QuizResults.AddRange(quizResultModel);
-            int r = _context.SaveChanges();
+                    _context.QuizResults.AddRange(quizResultModel);
+                    _context.SaveChanges();
+                    dbTran.Commit();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    dbTran.Rollback();
+                    throw;
+                }
 
-
-            return r > 0;
+            }
+            return Task.FromResult(0);
         }
 
         public QuizResultApiModel GetQuizResults(int quizId, int userId)
@@ -128,7 +139,7 @@ namespace Quiz.Web.QueryServices.Quiz
                       Description = o.q.Description,
                       Duration = o.q.Duration,
                       PassingPercentage = o.q.PassingPercentage,
-                      AttemptDate=o.a.AttemptDate,
+                      AttemptDate = o.a.AttemptDate,
                       Questions = o.q.Questions.Join(o.a.QuizResults, n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
                       .Select(x => new QuestionApiModel
                       {
@@ -154,23 +165,7 @@ namespace Quiz.Web.QueryServices.Quiz
 
         }
 
-        private void setResult(QuizResultApiModel quizResult)
-        {
-            int totalAttempt=0, totalCorrectAnswer =0;
-            foreach (var question in quizResult.Questions)
-            {
-                totalAttempt += question.Options.Where(x => x.IsSelected).Count()>0 ? 1 : 0;
-                totalCorrectAnswer += question.Options.Where(x => x.IsSelected && x.IsSelected == x.IsAnswer).Count() > 0 ? 1 : 0;
-            }
-            quizResult.TotalQuestions = quizResult.Questions.Count();
-            quizResult.TotalQuestionsAttempt = totalAttempt;
-            quizResult.TotalCorrectAnswer = totalCorrectAnswer;
-            quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
 
-           
-            decimal marksPercentage = getMarksInPercentage(totalCorrectAnswer , quizResult.TotalQuestions);
-            quizResult.ResultStatus= Math.Round(marksPercentage) >=quizResult.PassingPercentage?"Pass":"Fail";
-        }
 
         public IEnumerable<QuizParticipantModel> GetQuizParticipants(int quizId)
         {
@@ -182,17 +177,34 @@ namespace Quiz.Web.QueryServices.Quiz
                     Id = x.qa.UserId.Value,
                     FirstName = x.u.FirstName,
                     LastName = x.u.LastName,
-                    QuizId=x.qa.QuizId.Value,
+                    QuizId = x.qa.QuizId.Value,
                     AttemptDate = x.qa.AttemptDate
                 });
         }
 
-        private decimal getMarksInPercentage(decimal totalCorrectAnswer,decimal totalQuestions)
+
+
+        private void setResult(QuizResultApiModel quizResult)
+        {
+            int totalAttempt = 0, totalCorrectAnswer = 0;
+            foreach (var question in quizResult.Questions)
+            {
+                totalAttempt += question.Options.Where(x => x.IsSelected).Count() > 0 ? 1 : 0;
+                totalCorrectAnswer += question.Options.Where(x => x.IsSelected && x.IsSelected == x.IsAnswer).Count() > 0 ? 1 : 0;
+            }
+            quizResult.TotalQuestions = quizResult.Questions.Count();
+            quizResult.TotalQuestionsAttempt = totalAttempt;
+            quizResult.TotalCorrectAnswer = totalCorrectAnswer;
+            quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
+
+
+            quizResult.MarksInPercentage = getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
+            quizResult.ResultStatus = Math.Round(quizResult.MarksInPercentage) >= quizResult.PassingPercentage ? "Pass" : "Fail";
+        }
+        private decimal getMarksInPercentage(decimal totalCorrectAnswer, decimal totalQuestions)
         {
             return (totalCorrectAnswer / totalQuestions) * 100;
         }
-
-       
 
     }
 }

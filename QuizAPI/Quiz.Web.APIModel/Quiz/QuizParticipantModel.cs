@@ -37,5 +37,7 @@ namespace Quiz.Web.APIModel.Quiz
             }
         }
         public int QuizId { get; set; }
+
+        
     }
 }

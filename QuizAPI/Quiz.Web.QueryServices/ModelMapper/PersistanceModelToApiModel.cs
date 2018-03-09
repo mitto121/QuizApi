@@ -1,6 +1,8 @@
-﻿using Quiz.Web.APIModel.Quiz;
+﻿using Quiz.Web.API.Shared;
+using Quiz.Web.APIModel.Quiz;
 using Quiz.Web.APIModel.UserAccount;
 using Quiz.Web.DataServices.Data;
+using System;
 using System.Linq;
 
 namespace Quiz.Web.QueryServices.ModelMapper
@@ -38,10 +40,11 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 PassingPercentage=quize.PassingPercentage,
                 IsActive = quize.IsActive,
                 CreatedDate = quize.CreatedDate,
+                QuizLinkId= Utility.EncryptData(Convert.ToString(quize.Id)),
                 Questions = quize.Questions?.Select(x => x.ToQuestionApiModel())
             };
         }
-
+       
         public static QuestionApiModel ToQuestionApiModel(this Question question)
         {
             if (question == null)

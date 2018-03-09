@@ -18,5 +18,7 @@ namespace Quiz.Web.APIModel.Quiz
         public int TotalWrongAnswer { get; set; }
 
         public string ResultStatus { get; set; }
+
+        public decimal MarksInPercentage { get; set; }
     }
 }
