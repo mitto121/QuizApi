@@ -11,6 +11,16 @@
     <Property Name="IsAnswer" Type="bit" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Participants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="Questions">
     <Key>
       <PropertyRef Name="Id" />
@@ -26,7 +36,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AttemptDate" Type="datetime" Nullable="false" />
-    <Property Name="UserId" Type="int" />
+    <Property Name="ParticipantId" Type="int" />
     <Property Name="QuizId" Type="int" />
   </EntityType>
   <EntityType Name="Quizes">
@@ -61,7 +71,6 @@
     <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="nvarchar" MaxLength="80" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
-    <Property Name="IsAdmin" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__Questio__267ABA7A">
@@ -97,18 +106,6 @@
       </Principal>
       <Dependent Role="QuizAttemptDetails">
         <PropertyRef Name="QuizId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__QuizAttem__UserI__32E0915F">
-    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-    <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="QuizAttemptDetails">
-        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -148,8 +145,21 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_QuizAttemptDetails_Participants">
+    <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+    <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participants">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuizAttemptDetails">
+        <PropertyRef Name="ParticipantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="QuizMasterDBModelStoreContainer">
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuizAttemptDetails" EntityType="Self.QuizAttemptDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quizes" EntityType="Self.Quizes" Schema="dbo" store:Type="Tables" />
@@ -167,10 +177,6 @@
       <End Role="Quizes" EntitySet="Quizes" />
       <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizAttem__UserI__32E0915F" Association="Self.FK__QuizAttem__UserI__32E0915F">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
-    </AssociationSet>
     <AssociationSet Name="FK__QuizResul__Attem__47DBAE45" Association="Self.FK__QuizResul__Attem__47DBAE45">
       <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
       <End Role="QuizResults" EntitySet="QuizResults" />
@@ -182,6 +188,10 @@
     <AssociationSet Name="FK__QuizResul__Selec__49C3F6B7" Association="Self.FK__QuizResul__Selec__49C3F6B7">
       <End Role="Options" EntitySet="Options" />
       <End Role="QuizResults" EntitySet="QuizResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuizAttemptDetails_Participants" Association="Self.FK_QuizAttemptDetails_Participants">
+      <End Role="Participants" EntitySet="Participants" />
+      <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

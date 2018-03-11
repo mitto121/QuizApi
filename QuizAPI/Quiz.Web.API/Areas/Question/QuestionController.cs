@@ -33,17 +33,17 @@ namespace Quiz.Web.API.Areas.Question
 
         [HttpGet]
         [Route("api/Question/GetQuestion/{id}")]
-        public IHttpActionResult GetQuestionById(int Id)
+        public IHttpActionResult GetQuestionById(int id)
         {
-            var response = _questionQueryServices.GetQuestionById(Id);
+            var response = _questionQueryServices.GetQuestionById(id);
 
             return Ok(response);
         }
         [HttpGet]
         [Route("api/Question/GetQuestionsByQuizId/{id}")]
-        public IHttpActionResult GetQuestionsByQuizId(int Id)
+        public IHttpActionResult GetQuestionsByQuizId(int id)
         {
-            var response = _questionQueryServices.GetQuestionsByQuizId(Id);
+            var response = _questionQueryServices.GetQuestionsByQuizId(id);
 
             return Ok(response);
         }
@@ -64,14 +64,14 @@ namespace Quiz.Web.API.Areas.Question
         }
 
         [HttpDelete]
-        [Route("api/Question/RemoveQuestion")]
+        [Route("api/Question/RemoveQuestion/{questionId}")]
         public IHttpActionResult RemoveQuestion(int questionId)
         {
             var response = _questionQueryServices.RemoveQuestion(questionId);
             return Ok(response);
         }
         [HttpPut]
-        [Route("api/Question/ActivateQuestion")]
+        [Route("api/Question/ActivateQuestion/{questionId}")]
         public IHttpActionResult ActivateQuestion(int questionId)
         {
             var response = _questionQueryServices.ActivateQuestion(questionId);
@@ -83,6 +83,15 @@ namespace Quiz.Web.API.Areas.Question
         public IHttpActionResult AddQuestionsToQuiz([FromBody] PostQuizQuestionRequestModel quizQuestionRequest)
         {
             var response = _questionQueryServices.AddQuestionsToQuiz(quizQuestionRequest);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("api/Question/CheckQuestionExistOrNot/{quizId}/{question}")]
+        public IHttpActionResult CheckQuestionExistOrNot(int quizId,string question)
+        {
+            var response = _questionQueryServices.CheckQuestionExistOrNot(quizId, question);
+
             return Ok(response);
         }
     }

@@ -23,16 +23,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="QuizAttemptDetails">
-      <EntityTypeMapping TypeName="QuizMasterDBModel.QuizAttemptDetail">
-        <MappingFragment StoreEntitySet="QuizAttemptDetails">
-          <ScalarProperty Name="QuizId" ColumnName="QuizId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="AttemptDate" ColumnName="AttemptDate" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Quizes">
       <EntityTypeMapping TypeName="QuizMasterDBModel.Quize">
         <MappingFragment StoreEntitySet="Quizes">
@@ -56,11 +46,31 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="QuizMasterDBModel.Participant">
+        <MappingFragment StoreEntitySet="Participants">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuizAttemptDetails">
+      <EntityTypeMapping TypeName="QuizMasterDBModel.QuizAttemptDetail">
+        <MappingFragment StoreEntitySet="QuizAttemptDetails">
+          <ScalarProperty Name="QuizId" ColumnName="QuizId" />
+          <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+          <ScalarProperty Name="AttemptDate" ColumnName="AttemptDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="QuizMasterDBModel.User">
         <MappingFragment StoreEntitySet="Users">
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />

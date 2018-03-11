@@ -43,14 +43,20 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
             return Ok(response);
         }
         [HttpDelete]
-        [Route("api/Quiz/RemoveQuiz")]
-        public IHttpActionResult DeleteQuiz(int Id)
+        [Route("api/Quiz/RemoveQuiz/{id}")]
+        public IHttpActionResult DeleteQuiz(int id)
         {
-            var response = _quizQueryServices.DeleteQuiz(Id);
+            var response = _quizQueryServices.DeleteQuiz(id);
 
             return Ok(response);
         }
-
+        [HttpPut]
+        [Route("api/Quiz/ActivateQuiz/{id}")]
+        public IHttpActionResult ActivateQuiz(int id)
+        {
+            var response = _quizQueryServices.ActivateQuiz(id);
+            return Ok(response);
+        }
         [HttpPut]
         [Route("api/Quiz/UpdateQuiz")]
         public IHttpActionResult UpdateQuiz([FromBody]QuizApiModel Quiz)
@@ -61,10 +67,10 @@ namespace Quiz.Web.API.Areas.Quiz.Controllers
         }
 
         [HttpGet]
-        [Route("api/Quiz/CheckQuizHasAttempted/{quizId}/{userId}")]
-        public IHttpActionResult CheckQuizHasAttempted(int quizId,int userId)
+        [Route("api/Quiz/CheckQuizHasAttempted/{quizId}/{participantId}")]
+        public IHttpActionResult CheckQuizHasAttempted(int quizId,int participantId)
         {
-            var response = _quizQueryServices.CheckQuizHasAttempted(quizId,userId);            
+            var response = _quizQueryServices.CheckQuizHasAttempted(quizId, participantId);            
             return Ok(response);
         }
 

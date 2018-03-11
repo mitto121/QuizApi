@@ -16,6 +16,16 @@
           <Property Name="IsAnswer" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Participants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Questions">
           <Key>
             <PropertyRef Name="Id" />
@@ -31,7 +41,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AttemptDate" Type="datetime" Nullable="false" />
-          <Property Name="UserId" Type="int" />
+          <Property Name="ParticipantId" Type="int" />
           <Property Name="QuizId" Type="int" />
         </EntityType>
         <EntityType Name="Quizes">
@@ -66,7 +76,6 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK__Options__Questio__267ABA7A">
@@ -102,18 +111,6 @@
             </Principal>
             <Dependent Role="QuizAttemptDetails">
               <PropertyRef Name="QuizId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QuizAttem__UserI__32E0915F">
-          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuizAttemptDetails">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -153,8 +150,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_QuizAttemptDetails_Participants">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+          <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuizAttemptDetails">
+              <PropertyRef Name="ParticipantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QuizMasterDBModelStoreContainer">
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuizAttemptDetails" EntityType="Self.QuizAttemptDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quizes" EntityType="Self.Quizes" Schema="dbo" store:Type="Tables" />
@@ -172,10 +182,6 @@
             <End Role="Quizes" EntitySet="Quizes" />
             <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuizAttem__UserI__32E0915F" Association="Self.FK__QuizAttem__UserI__32E0915F">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__QuizResul__Attem__47DBAE45" Association="Self.FK__QuizResul__Attem__47DBAE45">
             <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
             <End Role="QuizResults" EntitySet="QuizResults" />
@@ -188,6 +194,10 @@
             <End Role="Options" EntitySet="Options" />
             <End Role="QuizResults" EntitySet="QuizResults" />
           </AssociationSet>
+          <AssociationSet Name="FK_QuizAttemptDetails_Participants" Association="Self.FK_QuizAttemptDetails_Participants">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -196,10 +206,8 @@
         <EntityContainer Name="QuizMasterDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Options" EntityType="QuizMasterDBModel.Option" />
           <EntitySet Name="Questions" EntityType="QuizMasterDBModel.Question" />
-          <EntitySet Name="QuizAttemptDetails" EntityType="QuizMasterDBModel.QuizAttemptDetail" />
           <EntitySet Name="Quizes" EntityType="QuizMasterDBModel.Quize" />
           <EntitySet Name="QuizResults" EntityType="QuizMasterDBModel.QuizResult" />
-          <EntitySet Name="Users" EntityType="QuizMasterDBModel.User" />
           <AssociationSet Name="FK__Options__Questio__267ABA7A" Association="QuizMasterDBModel.FK__Options__Questio__267ABA7A">
             <End Role="Question" EntitySet="Questions" />
             <End Role="Option" EntitySet="Options" />
@@ -216,18 +224,21 @@
             <End Role="Question" EntitySet="Questions" />
             <End Role="QuizResult" EntitySet="QuizResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuizAttem__QuizI__33D4B598" Association="QuizMasterDBModel.FK__QuizAttem__QuizI__33D4B598">
-            <End Role="Quize" EntitySet="Quizes" />
+          <EntitySet Name="Participants" EntityType="QuizMasterDBModel.Participant" />
+          <EntitySet Name="QuizAttemptDetails" EntityType="QuizMasterDBModel.QuizAttemptDetail" />
+          <AssociationSet Name="FK_QuizAttemptDetails_Participants" Association="QuizMasterDBModel.FK_QuizAttemptDetails_Participants">
+            <End Role="Participant" EntitySet="Participants" />
             <End Role="QuizAttemptDetail" EntitySet="QuizAttemptDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuizAttem__UserI__32E0915F" Association="QuizMasterDBModel.FK__QuizAttem__UserI__32E0915F">
-            <End Role="User" EntitySet="Users" />
+          <AssociationSet Name="FK__QuizAttem__QuizI__33D4B598" Association="QuizMasterDBModel.FK__QuizAttem__QuizI__33D4B598">
+            <End Role="Quize" EntitySet="Quizes" />
             <End Role="QuizAttemptDetail" EntitySet="QuizAttemptDetails" />
           </AssociationSet>
           <AssociationSet Name="FK__QuizResul__Attem__47DBAE45" Association="QuizMasterDBModel.FK__QuizResul__Attem__47DBAE45">
             <End Role="QuizAttemptDetail" EntitySet="QuizAttemptDetails" />
             <End Role="QuizResult" EntitySet="QuizResults" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="QuizMasterDBModel.User" />
         </EntityContainer>
         <EntityType Name="Option">
           <Key>
@@ -254,18 +265,6 @@
           <NavigationProperty Name="Quize" Relationship="QuizMasterDBModel.FK__Questions__QuizI__22AA2996" FromRole="Question" ToRole="Quize" />
           <NavigationProperty Name="QuizResults" Relationship="QuizMasterDBModel.FK__QuizResul__Quest__48CFD27E" FromRole="Question" ToRole="QuizResult" />
         </EntityType>
-        <EntityType Name="QuizAttemptDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AttemptDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="QuizId" Type="Int32" />
-          <NavigationProperty Name="Quize" Relationship="QuizMasterDBModel.FK__QuizAttem__QuizI__33D4B598" FromRole="QuizAttemptDetail" ToRole="Quize" />
-          <NavigationProperty Name="User" Relationship="QuizMasterDBModel.FK__QuizAttem__UserI__32E0915F" FromRole="QuizAttemptDetail" ToRole="User" />
-          <NavigationProperty Name="QuizResults" Relationship="QuizMasterDBModel.FK__QuizResul__Attem__47DBAE45" FromRole="QuizAttemptDetail" ToRole="QuizResult" />
-        </EntityType>
         <EntityType Name="Quize">
           <Key>
             <PropertyRef Name="Id" />
@@ -291,21 +290,6 @@
           <NavigationProperty Name="Option" Relationship="QuizMasterDBModel.FK__QuizResul__Selec__49C3F6B7" FromRole="QuizResult" ToRole="Option" />
           <NavigationProperty Name="Question" Relationship="QuizMasterDBModel.FK__QuizResul__Quest__48CFD27E" FromRole="QuizResult" ToRole="Question" />
           <NavigationProperty Name="QuizAttemptDetail" Relationship="QuizMasterDBModel.FK__QuizResul__Attem__47DBAE45" FromRole="QuizResult" ToRole="QuizAttemptDetail" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="QuizAttemptDetails" Relationship="QuizMasterDBModel.FK__QuizAttem__UserI__32E0915F" FromRole="User" ToRole="QuizAttemptDetail" />
         </EntityType>
         <Association Name="FK__Options__Questio__267ABA7A">
           <End Type="QuizMasterDBModel.Question" Role="Question" Multiplicity="0..1" />
@@ -355,6 +339,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="QuizAttemptDetails" Relationship="QuizMasterDBModel.FK_QuizAttemptDetails_Participants" FromRole="Participant" ToRole="QuizAttemptDetail" />
+        </EntityType>
+        <EntityType Name="QuizAttemptDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttemptDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ParticipantId" Type="Int32" />
+          <Property Name="QuizId" Type="Int32" />
+          <NavigationProperty Name="Participant" Relationship="QuizMasterDBModel.FK_QuizAttemptDetails_Participants" FromRole="QuizAttemptDetail" ToRole="Participant" />
+          <NavigationProperty Name="Quize" Relationship="QuizMasterDBModel.FK__QuizAttem__QuizI__33D4B598" FromRole="QuizAttemptDetail" ToRole="Quize" />
+          <NavigationProperty Name="QuizResults" Relationship="QuizMasterDBModel.FK__QuizResul__Attem__47DBAE45" FromRole="QuizAttemptDetail" ToRole="QuizResult" />
+        </EntityType>
+        <Association Name="FK_QuizAttemptDetails_Participants">
+          <End Type="QuizMasterDBModel.Participant" Role="Participant" Multiplicity="0..1" />
+          <End Type="QuizMasterDBModel.QuizAttemptDetail" Role="QuizAttemptDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuizAttemptDetail">
+              <PropertyRef Name="ParticipantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__QuizAttem__QuizI__33D4B598">
           <End Type="QuizMasterDBModel.Quize" Role="Quize" Multiplicity="0..1" />
           <End Type="QuizMasterDBModel.QuizAttemptDetail" Role="QuizAttemptDetail" Multiplicity="*" />
@@ -364,18 +383,6 @@
             </Principal>
             <Dependent Role="QuizAttemptDetail">
               <PropertyRef Name="QuizId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__QuizAttem__UserI__32E0915F">
-          <End Type="QuizMasterDBModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="QuizMasterDBModel.QuizAttemptDetail" Role="QuizAttemptDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuizAttemptDetail">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -391,6 +398,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -419,16 +439,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuizAttemptDetails">
-            <EntityTypeMapping TypeName="QuizMasterDBModel.QuizAttemptDetail">
-              <MappingFragment StoreEntitySet="QuizAttemptDetails">
-                <ScalarProperty Name="QuizId" ColumnName="QuizId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AttemptDate" ColumnName="AttemptDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Quizes">
             <EntityTypeMapping TypeName="QuizMasterDBModel.Quize">
               <MappingFragment StoreEntitySet="Quizes">
@@ -452,11 +462,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="QuizMasterDBModel.Participant">
+              <MappingFragment StoreEntitySet="Participants">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuizAttemptDetails">
+            <EntityTypeMapping TypeName="QuizMasterDBModel.QuizAttemptDetail">
+              <MappingFragment StoreEntitySet="QuizAttemptDetails">
+                <ScalarProperty Name="QuizId" ColumnName="QuizId" />
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="AttemptDate" ColumnName="AttemptDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="QuizMasterDBModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quiz.Web.APIModel.UserAccount;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,19 +7,10 @@ using System.Threading.Tasks;
 
 namespace Quiz.Web.APIModel.Quiz
 {
-    public class QuizParticipantModel
+    public class QuizParticipantModel: ParticipantApiModel
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
 
-        public string Name
-        {
-            get
-            {
-                return $"{FirstName} {LastName}";
-            }
-        }
+        public int QuizId { get; set; }
 
         public DateTime AttemptDate { get; set; }
 
@@ -36,7 +28,6 @@ namespace Quiz.Web.APIModel.Quiz
                 return AttemptDate.ToShortTimeString();
             }
         }
-        public int QuizId { get; set; }
 
         
     }

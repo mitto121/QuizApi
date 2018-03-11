@@ -25,7 +25,7 @@ namespace Quiz.Web.QueryServices.Quiz
         {
             var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
 
-            var quizesData = _context.Quizes.Where(x => x.IsActive).ToList();
+            var quizesData = _context.Quizes.ToList();
             quizes.TotalRecordCount = quizesData.Count();
             quizes.Result = quizesData?.Select(x => x.ToQuizApiModel());
 
@@ -82,14 +82,22 @@ namespace Quiz.Web.QueryServices.Quiz
             int rowAffected = _context.SaveChanges();
             return rowAffected > 0;
         }
-
-        public bool CheckQuizHasAttempted(int quizId, int userId)
+        public bool ActivateQuiz(int Id)
         {
-            var quiz = _context.QuizAttemptDetails.Where(x => x.QuizId == quizId && x.UserId == userId).ToList();
+            var question = (_context.Quizes.Where(x => x.Id == Id)).FirstOrDefault();
+            question.IsActive = true;
+            _context.Entry(question).State = System.Data.Entity.EntityState.Modified;
+            int rowAffected = _context.SaveChanges();
+
+            return rowAffected > 0;
+        }
+        public bool CheckQuizHasAttempted(int quizId, int participantId)
+        {
+            var quiz = _context.QuizAttemptDetails.Where(x => x.QuizId == quizId && x.ParticipantId == participantId).ToList();
             return (quiz != null && quiz.Count() > 0);
 
         }
-        public Task SubmitQuiz(int userId, QuizApiModel quizApiModel)
+        public Task SubmitQuiz(int participantId, QuizApiModel quizApiModel)
         {
             using (DbContextTransaction dbTran = _context.Database.BeginTransaction())
             {
@@ -99,7 +107,7 @@ namespace Quiz.Web.QueryServices.Quiz
                     {
                         AttemptDate = DateTime.Now,
                         QuizId = quizApiModel.Id,
-                        UserId = userId
+                        ParticipantId = participantId
                     };
                     _context.QuizAttemptDetails.Add(QuizAttemptModel);
                     _context.SaveChanges();
@@ -126,11 +134,11 @@ namespace Quiz.Web.QueryServices.Quiz
             return Task.FromResult(0);
         }
 
-        public QuizResultApiModel GetQuizResults(int quizId, int userId)
+        public QuizResultApiModel GetQuizResults(int quizId, int participantId)
         {
             var quizResult = _context.Quizes.Join(_context.QuizAttemptDetails,
                 q => q.Id, a => a.QuizId, (q, a) => new { q, a }
-                ).Where(x => x.q.Id == quizId && x.a.UserId == userId)
+                ).Where(x => x.q.Id == quizId && x.a.ParticipantId == participantId)
                 .Select(
                   o => new QuizResultApiModel
                   {
@@ -170,13 +178,14 @@ namespace Quiz.Web.QueryServices.Quiz
         public IEnumerable<QuizParticipantModel> GetQuizParticipants(int quizId)
         {
             return _context.QuizAttemptDetails
-                .Join(_context.Users, qa => qa.UserId, u => u.Id, (qa, u) => new { qa, u })
+                .Join(_context.Participants, qa => qa.ParticipantId, u => u.Id, (qa, u) => new { qa, u })
                 .Where(f => f.qa.QuizId == quizId)
                 .Select(x => new QuizParticipantModel
                 {
-                    Id = x.qa.UserId.Value,
-                    FirstName = x.u.FirstName,
-                    LastName = x.u.LastName,
+                    Id = x.qa.ParticipantId.Value,
+                    Name = x.u.Name,
+                    Email = x.u.Email,
+                    DateOfBirth=x.u.DateOfBirth,
                     QuizId = x.qa.QuizId.Value,
                     AttemptDate = x.qa.AttemptDate
                 });

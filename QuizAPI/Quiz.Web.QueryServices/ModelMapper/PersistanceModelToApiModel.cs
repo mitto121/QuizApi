@@ -19,8 +19,9 @@ namespace Quiz.Web.QueryServices.ModelMapper
             return new UserLoginApiModel
             {
                 Id = userData.Id,
-                UserName = userData.UserName,
-                IsAdmin = userData.IsAdmin,
+                FirstName=userData.FirstName,
+                LastName=userData.LastName,
+                UserName = userData.UserName,               
                 IsActive = userData.IsActive
             };
         }
@@ -74,6 +75,22 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 IsActive = option.IsActive,
                 IsAnswer = option.IsAnswer
 
+            };
+        }
+
+        public static ParticipantApiModel ToParticipantApiModel(this Participant participant)
+        {
+            if (participant == null)
+            {
+                return null;
+            }
+            return new ParticipantApiModel
+            {
+                Id = participant.Id,
+                Name = participant.Name,
+                DateOfBirth = participant.DateOfBirth,
+                Email = participant.Email,
+                IsActive= participant.IsActive
             };
         }
 

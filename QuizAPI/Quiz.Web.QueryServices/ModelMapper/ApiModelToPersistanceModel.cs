@@ -62,7 +62,6 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 Password=userAccountApiModel.Password,
                 CreatedDate=userAccountApiModel.CreatedDate,
                 IsActive=userAccountApiModel.IsActive,
-                IsAdmin=userAccountApiModel.IsAdmin                
             };
         }
 

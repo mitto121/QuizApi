@@ -55,6 +55,9 @@
     <Compile Include="Data\Option.cs">
       <DependentUpon>Quiz.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Participant.cs">
+      <DependentUpon>Quiz.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Question.cs">
       <DependentUpon>Quiz.tt</DependentUpon>
     </Compile>

@@ -10,6 +10,16 @@ namespace Quiz.Web.APIModel.UserAccount
     {
         public int Id { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
         public string UserName { get; set; }
         public string Password { get; set; }
 
@@ -17,9 +27,6 @@ namespace Quiz.Web.APIModel.UserAccount
 
         public bool IsActive { get; set; }
 
-        public bool IsAdmin { get; set; }
 
-
-      
     }
 }

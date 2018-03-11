@@ -13,7 +13,7 @@ namespace Quiz.Web.QueryServices.UserAccount
 {
     public class UserAccountQueryService
     {
-         
+
         private readonly QuizMasterDBEntities _context;
         public UserAccountQueryService()
         {
@@ -26,9 +26,9 @@ namespace Quiz.Web.QueryServices.UserAccount
 
             password = Utility.EncryptData(password);
 
-            var userData =  _context.Users.Where(x=>x.UserName==userName && x.Password==password && x.IsActive ).FirstOrDefault();
+            var userData = _context.Users.Where(x => x.UserName == userName && x.Password == password && x.IsActive).FirstOrDefault();
 
-            apiResponse.IsSucceeded = userData!=null;
+            apiResponse.IsSucceeded = userData != null;
 
             apiResponse.Result = userData?.ToUserLoginApiModel();
 
@@ -56,14 +56,43 @@ namespace Quiz.Web.QueryServices.UserAccount
                 _context.Users.Add(user);
                 int rowAffective = _context.SaveChanges();
                 response.Result = rowAffective > 0;
-                response.DisplayMessage= response.Result? "You have registered successfully. !!" : "failed , Please try again !!";
+                response.DisplayMessage = response.Result ? "You have registered successfully. !!" : "failed , Please try again !!";
+            }
+            return response;
+        }
+
+        public ApiResponse<ParticipantApiModel> CreateParticipant(ParticipantApiModel participantApiModel)
+        {
+            var response = new ApiResponse<ParticipantApiModel>();
+            var participantData = _context.Participants
+                .Where(x => x.Email.ToLower() == participantApiModel.Email.ToLower() && x.IsActive).FirstOrDefault();
+            if (participantData != null)
+            {
+                response.IsSucceeded = true;
+                response.Result = participantData.ToParticipantApiModel();
+            }
+            else
+            {
+
+                var participant = new Participant
+                {
+                    Name = participantApiModel.Name,
+                    DateOfBirth = participantApiModel.DateOfBirth,
+                    Email = participantApiModel.Email,
+                    IsActive = true
+                };
+                _context.Participants.Add(participant);
+                int rowAffective = _context.SaveChanges();
+
+                response.IsSucceeded = rowAffective > 0;
+                response.Result = response.IsSucceeded ? participant.ToParticipantApiModel() : null;
             }
             return response;
         }
 
         public bool CheckUserNameExistOrNot(string username)
         {
-            var user= _context.Users.Where(x => x.UserName.ToLower() == username).FirstOrDefault();
+            var user = _context.Users.Where(x => x.UserName.ToLower() == username).FirstOrDefault();
             return user != null;
         }
     }
