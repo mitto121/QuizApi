@@ -123,12 +123,7 @@ namespace Quiz.Web.QueryServices
             return rowAffected > 0;
         }
 
-        public bool CheckQuestionExistOrNot(int quizId, string question)
-        {
-            string questionName = question.Trim().ToLower();
-            var count=_context.Questions.Where(x => x.QuizId == quizId && x.Name.Trim().ToLower() == questionName).Count();
-            return count>0;
-        }
+       
         public Task AddQuestionsToQuiz(PostQuizQuestionRequestModel quizQuestionRequest)
         {
             var questions= _context.Questions.Where(x => quizQuestionRequest.QuestionIds.Contains(x.Id));

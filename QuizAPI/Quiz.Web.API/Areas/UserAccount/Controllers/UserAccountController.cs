@@ -21,6 +21,8 @@ namespace Quiz.Web.API.Areas.UserAccount.Controllers
         {
             _UserAccountQueryService = new UserAccountQueryService();
         }
+
+
         [HttpGet]
         [Route("api/UserAccount/AuthenticateUser/{userName}/{password}")]
         public IHttpActionResult AuthenticateUser(string userName, string password)
@@ -52,16 +54,7 @@ namespace Quiz.Web.API.Areas.UserAccount.Controllers
             return Ok(apiResponse);
         }
 
-        [HttpPost]
-        [Route("api/UserAccount/CreateParticipant")]
-        public IHttpActionResult CreateParticipant([FromBody] ParticipantApiModel participant)
-        {
-
-            var apiResponse = _UserAccountQueryService.CreateParticipant(participant);
-
-            return Ok(apiResponse);
-        }
-
+       
         private string CreateToken(UserLoginApiModel userLogin)
         {
             return "token"; //TODO : replace with jwt token

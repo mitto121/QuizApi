@@ -15,6 +15,14 @@ namespace Quiz.Web.APIModel.UserAccount
 
         public DateTime DateOfBirth { get; set; }
 
+        public string DateOfBirthDisplayText
+        {
+            get
+            {
+                return DateOfBirth.ToString("MM/dd/yyyy");
+            }
+        }
+
         public bool IsActive { get; set; }
 
     }

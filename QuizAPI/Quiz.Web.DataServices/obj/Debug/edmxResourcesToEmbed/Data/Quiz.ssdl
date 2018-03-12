@@ -59,6 +59,7 @@
     <Property Name="AttemptId" Type="int" />
     <Property Name="QuestionId" Type="int" />
     <Property Name="SelectedAnswer" Type="int" />
+    <Property Name="ActualAnswer" Type="int" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -97,7 +98,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizAttem__QuizI__33D4B598">
+  <Association Name="FK__QuizAttem__QuizI__24927208">
     <End Role="Quizes" Type="Self.Quizes" Multiplicity="0..1" />
     <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -109,7 +110,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Attem__47DBAE45">
+  <Association Name="FK__QuizResul__Attem__267ABA7A">
     <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="0..1" />
     <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
     <ReferentialConstraint>
@@ -121,7 +122,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Quest__48CFD27E">
+  <Association Name="FK__QuizResul__Quest__276EDEB3">
     <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
     <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
     <ReferentialConstraint>
@@ -133,7 +134,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Selec__49C3F6B7">
+  <Association Name="FK__QuizResul__Selec__286302EC">
     <End Role="Options" Type="Self.Options" Multiplicity="0..1" />
     <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
     <ReferentialConstraint>
@@ -173,19 +174,19 @@
       <End Role="Quizes" EntitySet="Quizes" />
       <End Role="Questions" EntitySet="Questions" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizAttem__QuizI__33D4B598" Association="Self.FK__QuizAttem__QuizI__33D4B598">
+    <AssociationSet Name="FK__QuizAttem__QuizI__24927208" Association="Self.FK__QuizAttem__QuizI__24927208">
       <End Role="Quizes" EntitySet="Quizes" />
       <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Attem__47DBAE45" Association="Self.FK__QuizResul__Attem__47DBAE45">
+    <AssociationSet Name="FK__QuizResul__Attem__267ABA7A" Association="Self.FK__QuizResul__Attem__267ABA7A">
       <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
       <End Role="QuizResults" EntitySet="QuizResults" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Quest__48CFD27E" Association="Self.FK__QuizResul__Quest__48CFD27E">
+    <AssociationSet Name="FK__QuizResul__Quest__276EDEB3" Association="Self.FK__QuizResul__Quest__276EDEB3">
       <End Role="Questions" EntitySet="Questions" />
       <End Role="QuizResults" EntitySet="QuizResults" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Selec__49C3F6B7" Association="Self.FK__QuizResul__Selec__49C3F6B7">
+    <AssociationSet Name="FK__QuizResul__Selec__286302EC" Association="Self.FK__QuizResul__Selec__286302EC">
       <End Role="Options" EntitySet="Options" />
       <End Role="QuizResults" EntitySet="QuizResults" />
     </AssociationSet>

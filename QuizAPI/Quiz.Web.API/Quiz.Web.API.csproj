@@ -144,6 +144,7 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Participant\ParticipantController.cs" />
     <Compile Include="Areas\Question\QuestionController.cs" />
     <Compile Include="Areas\Quiz\Controllers\QuizController.cs" />
     <Compile Include="Areas\UserAccount\Controllers\UserAccountController.cs" />

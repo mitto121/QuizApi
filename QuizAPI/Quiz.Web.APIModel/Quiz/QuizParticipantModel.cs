@@ -12,6 +12,8 @@ namespace Quiz.Web.APIModel.Quiz
 
         public int QuizId { get; set; }
 
+        public int AttemptId { get; set; }
+
         public DateTime AttemptDate { get; set; }
 
         public string Date
@@ -29,6 +31,8 @@ namespace Quiz.Web.APIModel.Quiz
             }
         }
 
-        
+        public string Result { get; set; }
+
+
     }
 }

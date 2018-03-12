@@ -59,36 +59,7 @@ namespace Quiz.Web.QueryServices.UserAccount
                 response.DisplayMessage = response.Result ? "You have registered successfully. !!" : "failed , Please try again !!";
             }
             return response;
-        }
-
-        public ApiResponse<ParticipantApiModel> CreateParticipant(ParticipantApiModel participantApiModel)
-        {
-            var response = new ApiResponse<ParticipantApiModel>();
-            var participantData = _context.Participants
-                .Where(x => x.Email.ToLower() == participantApiModel.Email.ToLower() && x.IsActive).FirstOrDefault();
-            if (participantData != null)
-            {
-                response.IsSucceeded = true;
-                response.Result = participantData.ToParticipantApiModel();
-            }
-            else
-            {
-
-                var participant = new Participant
-                {
-                    Name = participantApiModel.Name,
-                    DateOfBirth = participantApiModel.DateOfBirth,
-                    Email = participantApiModel.Email,
-                    IsActive = true
-                };
-                _context.Participants.Add(participant);
-                int rowAffective = _context.SaveChanges();
-
-                response.IsSucceeded = rowAffective > 0;
-                response.Result = response.IsSucceeded ? participant.ToParticipantApiModel() : null;
-            }
-            return response;
-        }
+        }       
 
         public bool CheckUserNameExistOrNot(string username)
         {

@@ -93,7 +93,12 @@ namespace Quiz.Web.QueryServices.Quiz
         }
         public bool CheckQuizHasAttempted(int quizId, int participantId)
         {
-            var quiz = _context.QuizAttemptDetails.Where(x => x.QuizId == quizId && x.ParticipantId == participantId).ToList();
+            var date = DateTime.Now.AddDays(-30);
+            var quiz = _context.QuizAttemptDetails
+                .Where(x => x.QuizId == quizId && 
+                            x.ParticipantId == participantId &&
+                            x.AttemptDate> date).ToList();
+
             return (quiz != null && quiz.Count() > 0);
 
         }
@@ -117,7 +122,8 @@ namespace Quiz.Web.QueryServices.Quiz
                     {
                         AttemptId = QuizAttemptModel.Id,
                         QuestionId = x.Id,
-                        SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id
+                        SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id,
+                        ActualAnswer = x.Options.Where(o => o.IsSelected == o.IsAnswer).FirstOrDefault()?.Id,
                     });
 
                     _context.QuizResults.AddRange(quizResultModel);
@@ -134,11 +140,11 @@ namespace Quiz.Web.QueryServices.Quiz
             return Task.FromResult(0);
         }
 
-        public QuizResultApiModel GetQuizResults(int quizId, int participantId)
+        public QuizResultApiModel GetQuizResults(int attemptId)
         {
             var quizResult = _context.Quizes.Join(_context.QuizAttemptDetails,
                 q => q.Id, a => a.QuizId, (q, a) => new { q, a }
-                ).Where(x => x.q.Id == quizId && x.a.ParticipantId == participantId)
+                ).Where(x => x.a.Id== attemptId)
                 .Select(
                   o => new QuizResultApiModel
                   {
@@ -173,26 +179,6 @@ namespace Quiz.Web.QueryServices.Quiz
 
         }
 
-
-
-        public IEnumerable<QuizParticipantModel> GetQuizParticipants(int quizId)
-        {
-            return _context.QuizAttemptDetails
-                .Join(_context.Participants, qa => qa.ParticipantId, u => u.Id, (qa, u) => new { qa, u })
-                .Where(f => f.qa.QuizId == quizId)
-                .Select(x => new QuizParticipantModel
-                {
-                    Id = x.qa.ParticipantId.Value,
-                    Name = x.u.Name,
-                    Email = x.u.Email,
-                    DateOfBirth=x.u.DateOfBirth,
-                    QuizId = x.qa.QuizId.Value,
-                    AttemptDate = x.qa.AttemptDate
-                });
-        }
-
-
-
         private void setResult(QuizResultApiModel quizResult)
         {
             int totalAttempt = 0, totalCorrectAnswer = 0;
@@ -207,7 +193,8 @@ namespace Quiz.Web.QueryServices.Quiz
             quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
 
 
-            quizResult.MarksInPercentage = getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
+            decimal percentageMarks= getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
+            quizResult.MarksInPercentage = Math.Round(percentageMarks, 2);
             quizResult.ResultStatus = Math.Round(quizResult.MarksInPercentage) >= quizResult.PassingPercentage ? "Pass" : "Fail";
         }
         private decimal getMarksInPercentage(decimal totalCorrectAnswer, decimal totalQuestions)

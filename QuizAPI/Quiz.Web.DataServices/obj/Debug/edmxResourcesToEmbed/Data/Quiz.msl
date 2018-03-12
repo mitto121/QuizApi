@@ -36,16 +36,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="QuizResults">
-      <EntityTypeMapping TypeName="QuizMasterDBModel.QuizResult">
-        <MappingFragment StoreEntitySet="QuizResults">
-          <ScalarProperty Name="SelectedAnswer" ColumnName="SelectedAnswer" />
-          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
-          <ScalarProperty Name="AttemptId" ColumnName="AttemptId" />
-          <ScalarProperty Name="SNo" ColumnName="SNo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Participants">
       <EntityTypeMapping TypeName="QuizMasterDBModel.Participant">
         <MappingFragment StoreEntitySet="Participants">
@@ -78,6 +68,17 @@
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuizResults">
+      <EntityTypeMapping TypeName="QuizMasterDBModel.QuizResult">
+        <MappingFragment StoreEntitySet="QuizResults">
+          <ScalarProperty Name="ActualAnswer" ColumnName="ActualAnswer" />
+          <ScalarProperty Name="SelectedAnswer" ColumnName="SelectedAnswer" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="AttemptId" ColumnName="AttemptId" />
+          <ScalarProperty Name="SNo" ColumnName="SNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

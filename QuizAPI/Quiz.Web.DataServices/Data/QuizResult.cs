@@ -18,6 +18,7 @@ namespace Quiz.Web.DataServices.Data
         public Nullable<int> AttemptId { get; set; }
         public Nullable<int> QuestionId { get; set; }
         public Nullable<int> SelectedAnswer { get; set; }
+        public Nullable<int> ActualAnswer { get; set; }
     
         public virtual Option Option { get; set; }
         public virtual Question Question { get; set; }

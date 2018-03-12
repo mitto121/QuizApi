@@ -86,13 +86,6 @@ namespace Quiz.Web.API.Areas.Question
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("api/Question/CheckQuestionExistOrNot/{quizId}/{question}")]
-        public IHttpActionResult CheckQuestionExistOrNot(int quizId,string question)
-        {
-            var response = _questionQueryServices.CheckQuestionExistOrNot(quizId, question);
-
-            return Ok(response);
-        }
+        
     }
 }
