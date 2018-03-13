@@ -1,4 +1,5 @@
-﻿using Quiz.Web.APIModel;
+﻿using Quiz.Web.API.Shared;
+using Quiz.Web.APIModel;
 using Quiz.Web.APIModel.Quiz;
 using Quiz.Web.DataServices.Data;
 using Quiz.Web.QueryServices.ModelMapper;
@@ -26,9 +27,26 @@ namespace Quiz.Web.QueryServices.Quiz
             var quizes = new ApiResponse<IEnumerable<QuizApiModel>>();
 
             var quizesData = _context.Quizes.ToList();
-            quizes.TotalRecordCount = quizesData.Count();
-            quizes.Result = quizesData?.Select(x => x.ToQuizApiModel());
 
+            quizes.TotalRecordCount = quizesData.Count();
+
+            if (quizes.TotalRecordCount.HasValue)
+            {
+                quizes.Result = quizesData.Select(quize => new QuizApiModel
+                {
+                    Id = quize.Id,
+                    Name = quize.Name,
+                    Description = quize.Description,
+                    Duration = quize.Duration,
+                    PassingPercentage = quize.PassingPercentage,
+                    IsActive = quize.IsActive,
+                    CreatedDate = quize.CreatedDate,
+                    QuizLinkId = Utility.EncryptData(Convert.ToString(quize.Id)),
+                    TotalParticipated = _context.QuizAttemptDetails.Where(x => x.QuizId == quize.Id).Count(),
+                    Questions = quize.Questions.Where(a => a.IsActive)?.Select(s => s.ToQuestionApiModel())
+                });
+            }         
+            
             return quizes;
         }
         public QuizApiModel GetQuizById(int Id)
@@ -122,8 +140,8 @@ namespace Quiz.Web.QueryServices.Quiz
                     {
                         AttemptId = QuizAttemptModel.Id,
                         QuestionId = x.Id,
-                        SelectedAnswer = x.Options.Where(o => o.SelectedOptionId.HasValue).FirstOrDefault()?.Id,
-                        ActualAnswer = x.Options.Where(o => o.IsSelected == o.IsAnswer).FirstOrDefault()?.Id,
+                        SelectedAnswer = x.Options.Where(o => o.IsSelected).FirstOrDefault()?.Id,
+                        ActualAnswer = x.Options.Where(o => o.IsAnswer).FirstOrDefault()?.Id,
                     });
 
                     _context.QuizResults.AddRange(quizResultModel);
@@ -154,7 +172,8 @@ namespace Quiz.Web.QueryServices.Quiz
                       Duration = o.q.Duration,
                       PassingPercentage = o.q.PassingPercentage,
                       AttemptDate = o.a.AttemptDate,
-                      Questions = o.q.Questions.Join(o.a.QuizResults, n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
+                      Questions = o.q.Questions
+                      .Join(o.a.QuizResults.Where(x=>x.AttemptId==o.a.Id), n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
                       .Select(x => new QuestionApiModel
                       {
                           Id = x.n.Id,
@@ -165,7 +184,7 @@ namespace Quiz.Web.QueryServices.Quiz
                               Id = r.Id,
                               Code = r.Code,
                               Name = r.Name,
-                              SelectedOptionId = x.m.SelectedAnswer,
+                              IsSelected=(x.m.SelectedAnswer==r.Id),
                               IsAnswer = r.IsAnswer
                           })
                       })

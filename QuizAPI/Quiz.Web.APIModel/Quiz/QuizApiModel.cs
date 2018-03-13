@@ -19,6 +19,8 @@ namespace Quiz.Web.APIModel.Quiz
         public DateTime? CreatedDate { get; set; }
 
         public string QuizLinkId { get; set; }
+
+        public int TotalParticipated { get; set; }
         public IEnumerable<QuestionApiModel> Questions { get; set; }
     }
 }
