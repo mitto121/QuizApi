@@ -4,6 +4,7 @@ using Quiz.Web.APIModel.UserAccount;
 using Quiz.Web.DataServices.Data;
 using Quiz.Web.QueryServices.ModelMapper;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Quiz.Web.QueryServices.UserAccount
 
             apiResponse.IsSucceeded = userData != null;
 
-            apiResponse.Result = userData?.ToUserLoginApiModel();
+            apiResponse.Result = userData?.ToUserAccountApiModel();
 
             return apiResponse;
         }
@@ -56,7 +57,7 @@ namespace Quiz.Web.QueryServices.UserAccount
                 _context.Users.Add(user);
                 int rowAffective = _context.SaveChanges();
                 response.Result = rowAffective > 0;
-                response.DisplayMessage = response.Result ? "You have registered successfully. !!" : "failed , Please try again !!";
+                response.DisplayMessage = response.Result ? "User has successfully registered. !!" : "failed , Please try again !!";
             }
             return response;
         }       
@@ -65,6 +66,26 @@ namespace Quiz.Web.QueryServices.UserAccount
         {
             var user = _context.Users.Where(x => x.UserName.ToLower() == username).FirstOrDefault();
             return user != null;
+        }
+
+        public IEnumerable<UserAccountApiModel> GetUsers()
+        {
+            var users = _context.Users.Where(x => !x.IsAdmin).ToList();         
+            return users?.Select(x => x.ToUserAccountApiModel());
+        }
+
+        public Task ActiveOrDeactiveUserAccount(int userId,bool isActive)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            if(user!=null)
+            {
+                user.IsActive = isActive;
+                _context.Entry(user).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+            return Task.FromResult(0);            
         }
     }
 }

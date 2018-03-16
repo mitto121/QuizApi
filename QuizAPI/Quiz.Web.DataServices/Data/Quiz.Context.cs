@@ -30,7 +30,7 @@ namespace Quiz.Web.DataServices.Data
         public virtual DbSet<Quize> Quizes { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
         public virtual DbSet<QuizAttemptDetail> QuizAttemptDetails { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<QuizResult> QuizResults { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

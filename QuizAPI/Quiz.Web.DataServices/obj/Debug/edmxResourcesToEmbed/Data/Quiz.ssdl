@@ -6,7 +6,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Code" Type="nvarchar" MaxLength="5" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
     <Property Name="QuestionId" Type="int" />
     <Property Name="IsAnswer" Type="bit" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -73,6 +73,7 @@
     <Property Name="Password" Type="nvarchar" MaxLength="80" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__Questio__267ABA7A">
     <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />

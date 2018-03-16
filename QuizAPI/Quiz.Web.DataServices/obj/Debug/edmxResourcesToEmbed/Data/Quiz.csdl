@@ -22,7 +22,6 @@
       <End Role="Quize" EntitySet="Quizes" />
       <End Role="QuizAttemptDetail" EntitySet="QuizAttemptDetails" />
     </AssociationSet>
-    <EntitySet Name="Users" EntityType="QuizMasterDBModel.User" />
     <EntitySet Name="QuizResults" EntityType="QuizMasterDBModel.QuizResult" />
     <AssociationSet Name="FK__QuizResul__Selec__286302EC" Association="QuizMasterDBModel.FK__QuizResul__Selec__286302EC">
       <End Role="Option" EntitySet="Options" />
@@ -36,6 +35,7 @@
       <End Role="QuizAttemptDetail" EntitySet="QuizAttemptDetails" />
       <End Role="QuizResult" EntitySet="QuizResults" />
     </AssociationSet>
+    <EntitySet Name="Users" EntityType="QuizMasterDBModel.User" />
   </EntityContainer>
   <EntityType Name="Option">
     <Key>
@@ -43,7 +43,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="QuestionId" Type="Int32" />
     <Property Name="IsAnswer" Type="Boolean" Nullable="false" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -147,19 +147,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="User">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FirstName" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Password" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-    <Property Name="IsActive" Type="Boolean" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-  </EntityType>
   <EntityType Name="QuizResult">
     <Key>
       <PropertyRef Name="SNo" />
@@ -209,4 +196,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+  </EntityType>
 </Schema>

@@ -44,6 +44,15 @@ namespace Quiz.Web.API.Areas.UserAccount.Controllers
             return Ok(apiResponse);
         }
 
+        [HttpGet]
+        [Route("api/UserAccount/Users")]
+        public IHttpActionResult GetUsers()
+        {
+            var response = _UserAccountQueryService.GetUsers();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("api/UserAccount/CreateUser")]
         public IHttpActionResult UserRegistration([FromBody] UserAccountApiModel newUser)
@@ -54,7 +63,16 @@ namespace Quiz.Web.API.Areas.UserAccount.Controllers
             return Ok(apiResponse);
         }
 
-       
+        [HttpPut]
+        [Route("api/UserAccount/ActiveOrDeactiveUserAccount/{id}/{isActive}")]
+        public IHttpActionResult ActiveOrDeactiveUserAccount(int id,bool isActive)
+        {
+
+            var apiResponse = _UserAccountQueryService.ActiveOrDeactiveUserAccount(id,isActive);
+
+            return Ok(apiResponse);
+        }
+
         private string CreateToken(UserLoginApiModel userLogin)
         {
             return "token"; //TODO : replace with jwt token

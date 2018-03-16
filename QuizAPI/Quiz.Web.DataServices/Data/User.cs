@@ -22,5 +22,6 @@ namespace Quiz.Web.DataServices.Data
         public string Password { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

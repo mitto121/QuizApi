@@ -45,8 +45,8 @@ namespace Quiz.Web.QueryServices.Quiz
                     TotalParticipated = _context.QuizAttemptDetails.Where(x => x.QuizId == quize.Id).Count(),
                     Questions = quize.Questions.Where(a => a.IsActive)?.Select(s => s.ToQuestionApiModel())
                 });
-            }         
-            
+            }
+
             return quizes;
         }
         public QuizApiModel GetQuizById(int Id)
@@ -113,9 +113,9 @@ namespace Quiz.Web.QueryServices.Quiz
         {
             var date = DateTime.Now.AddDays(-30);
             var quiz = _context.QuizAttemptDetails
-                .Where(x => x.QuizId == quizId && 
+                .Where(x => x.QuizId == quizId &&
                             x.ParticipantId == participantId &&
-                            x.AttemptDate> date).ToList();
+                            x.AttemptDate > date).ToList();
 
             return (quiz != null && quiz.Count() > 0);
 
@@ -162,7 +162,7 @@ namespace Quiz.Web.QueryServices.Quiz
         {
             var quizResult = _context.Quizes.Join(_context.QuizAttemptDetails,
                 q => q.Id, a => a.QuizId, (q, a) => new { q, a }
-                ).Where(x => x.a.Id== attemptId)
+                ).Where(x => x.a.Id == attemptId)
                 .Select(
                   o => new QuizResultApiModel
                   {
@@ -173,7 +173,7 @@ namespace Quiz.Web.QueryServices.Quiz
                       PassingPercentage = o.q.PassingPercentage,
                       AttemptDate = o.a.AttemptDate,
                       Questions = o.q.Questions
-                      .Join(o.a.QuizResults.Where(x=>x.AttemptId==o.a.Id), n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
+                      .Join(o.a.QuizResults.Where(x => x.AttemptId == o.a.Id), n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
                       .Select(x => new QuestionApiModel
                       {
                           Id = x.n.Id,
@@ -184,7 +184,7 @@ namespace Quiz.Web.QueryServices.Quiz
                               Id = r.Id,
                               Code = r.Code,
                               Name = r.Name,
-                              IsSelected=(x.m.SelectedAnswer==r.Id),
+                              IsSelected = (x.m.SelectedAnswer == r.Id),
                               IsAnswer = r.IsAnswer
                           })
                       })
@@ -194,7 +194,6 @@ namespace Quiz.Web.QueryServices.Quiz
             setResult(quizResult);
 
             return quizResult;
-
 
         }
 
@@ -212,7 +211,7 @@ namespace Quiz.Web.QueryServices.Quiz
             quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
 
 
-            decimal percentageMarks= getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
+            decimal percentageMarks = getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
             quizResult.MarksInPercentage = Math.Round(percentageMarks, 2);
             quizResult.ResultStatus = Math.Round(quizResult.MarksInPercentage) >= quizResult.PassingPercentage ? "Pass" : "Fail";
         }

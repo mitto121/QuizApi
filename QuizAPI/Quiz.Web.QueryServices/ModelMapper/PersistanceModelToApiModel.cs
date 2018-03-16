@@ -10,19 +10,21 @@ namespace Quiz.Web.QueryServices.ModelMapper
     public static class PersistanceModelToApiModel
     {
 
-        public static UserLoginApiModel ToUserLoginApiModel(this User userData)
+        public static UserAccountApiModel ToUserAccountApiModel(this User userData)
         {
             if (userData == null)
             {
                 return null;
             }
-            return new UserLoginApiModel
+            return new UserAccountApiModel
             {
                 Id = userData.Id,
                 FirstName=userData.FirstName,
                 LastName=userData.LastName,
+                Email=userData.Email,                
                 UserName = userData.UserName,               
-                IsActive = userData.IsActive
+                IsActive = userData.IsActive,
+                IsAdmin=userData.IsAdmin
             };
         }
 
