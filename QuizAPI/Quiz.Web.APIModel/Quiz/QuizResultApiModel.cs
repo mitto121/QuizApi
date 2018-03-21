@@ -9,6 +9,8 @@ namespace Quiz.Web.APIModel.Quiz
     public class QuizResultApiModel:QuizApiModel
     {
         public int TotalQuestions { get; set; }
+
+        public int AttemptId { get; set; }
         public DateTime AttemptDate { get; set; }
 
         public int TotalQuestionsAttempt { get; set; }

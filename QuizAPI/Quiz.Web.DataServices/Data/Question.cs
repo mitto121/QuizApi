@@ -17,8 +17,8 @@ namespace Quiz.Web.DataServices.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Question()
         {
-            this.Options = new HashSet<Option>();
             this.QuizResults = new HashSet<QuizResult>();
+            this.Options = new HashSet<Option>();
         }
     
         public int Id { get; set; }
@@ -26,10 +26,10 @@ namespace Quiz.Web.DataServices.Data
         public Nullable<int> QuizId { get; set; }
         public bool IsActive { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Option> Options { get; set; }
         public virtual Quize Quize { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuizResult> QuizResults { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Option> Options { get; set; }
     }
 }

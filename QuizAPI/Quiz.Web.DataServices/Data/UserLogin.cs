@@ -12,15 +12,15 @@ namespace Quiz.Web.DataServices.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class QuizResult
+    public partial class UserLogin
     {
-        public int SNo { get; set; }
-        public Nullable<int> AttemptId { get; set; }
-        public Nullable<int> QuestionId { get; set; }
-        public string SelectedAnswer { get; set; }
-        public string ActualAnswer { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool IsActive { get; set; }
     
-        public virtual Question Question { get; set; }
-        public virtual QuizAttemptDetail QuizAttemptDetail { get; set; }
+        public virtual User User { get; set; }
     }
 }

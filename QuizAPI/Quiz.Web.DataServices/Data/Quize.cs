@@ -24,8 +24,8 @@ namespace Quiz.Web.DataServices.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Duration { get; set; }
-        public int PassingPercentage { get; set; }
+        public decimal Duration { get; set; }
+        public decimal PassingPercentage { get; set; }
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     

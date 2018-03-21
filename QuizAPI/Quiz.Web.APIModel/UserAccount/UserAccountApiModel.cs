@@ -20,12 +20,15 @@ namespace Quiz.Web.APIModel.UserAccount
             }
         }
 
-        public string Email { get; set; }        
-       
+        public string Email { get; set; }
+
+        public string ContactNumber { get; set; }
+
+        public string ProfileImagePath { get; set; }
+
+        public byte[] Image { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public bool IsActive { get; set; }
-
-        public bool IsAdmin { get; set; }
+      
     }
 }

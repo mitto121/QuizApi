@@ -13,30 +13,30 @@ namespace Quiz.Web.QueryServices.ModelMapper
             return new Quize()
             {
                 Name = quizApiModel.Name,
-                Description = quizApiModel.Description,           
-                Duration=quizApiModel.Duration,
-                PassingPercentage=quizApiModel.PassingPercentage,     
-                CreatedDate = quizApiModel.CreatedDate,              
-                IsActive=quizApiModel.IsActive                
+                Description = quizApiModel.Description,
+                Duration = quizApiModel.Duration,
+                PassingPercentage = quizApiModel.PassingPercentage,
+                CreatedDate = quizApiModel.CreatedDate,
+                IsActive = quizApiModel.IsActive
             };
         }
 
-       
+
         public static Question ToQuestion(this QuestionApiModel questions)
         {
             if (questions == null)
             {
                 return null;
             }
-            return  new Question
+            return new Question
             {
                 Name = questions.Name,
                 IsActive = questions.IsActive,
-                QuizId =   questions.QuizId               
+                QuizId = questions.QuizId
             };
         }
-     
-        public static Option ToOption(this OptionApiModel optionApiModel,int questionId)
+
+        public static Option ToOption(this OptionApiModel optionApiModel, int questionId)
         {
             if (optionApiModel == null)
             {
@@ -48,20 +48,22 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 Name = optionApiModel.Name,
                 IsActive = optionApiModel.IsActive,
                 IsAnswer = optionApiModel.IsAnswer,
-                QuestionId=questionId               
+                QuestionId = questionId
             };
         }
 
         public static User ToUser(this UserAccountApiModel userAccountApiModel)
         {
-            return new User {
+            return new User
+            {
+                Id = userAccountApiModel.Id,
                 FirstName = userAccountApiModel.FirstName,
-                LastName=userAccountApiModel.LastName,
-                Email=userAccountApiModel.Email,
-                UserName=userAccountApiModel.UserName,
-                Password=userAccountApiModel.Password,
-                CreatedDate=userAccountApiModel.CreatedDate,
-                IsActive=userAccountApiModel.IsActive,
+                LastName = userAccountApiModel.LastName,
+                Email = userAccountApiModel.Email,
+                ContactNumber = userAccountApiModel.ContactNumber,
+                ProfileImagePath = userAccountApiModel.ProfileImagePath,
+                CreatedDate = userAccountApiModel.CreatedDate,
+                IsActive = userAccountApiModel.IsActive,
             };
         }
 

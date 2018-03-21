@@ -14,14 +14,22 @@ namespace Quiz.Web.DataServices.Data
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.UserLogins = new HashSet<UserLogin>();
+        }
+    
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string ContactNumber { get; set; }
+        public string ProfileImagePath { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public bool IsAdmin { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserLogin> UserLogins { get; set; }
     }
 }

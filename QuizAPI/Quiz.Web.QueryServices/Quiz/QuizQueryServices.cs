@@ -140,8 +140,9 @@ namespace Quiz.Web.QueryServices.Quiz
                     {
                         AttemptId = QuizAttemptModel.Id,
                         QuestionId = x.Id,
-                        SelectedAnswer = x.Options.Where(o => o.IsSelected).FirstOrDefault()?.Id,
-                        ActualAnswer = x.Options.Where(o => o.IsAnswer).FirstOrDefault()?.Id,
+                        SelectedAnswer = x.Options.Where(o => o.IsSelected).Count()>0?
+                        x.Options.Where(o => o.IsSelected).Select(s=>s.Id.ToString())?.Aggregate((a, b) => $"{a},{b}"):null,
+                        ActualAnswer = x.Options.Where(o => o.IsAnswer)?.Select(s => s.Id.ToString())?.Aggregate((a, b) => $"{a},{b}"),
                     });
 
                     _context.QuizResults.AddRange(quizResultModel);
@@ -171,6 +172,7 @@ namespace Quiz.Web.QueryServices.Quiz
                       Description = o.q.Description,
                       Duration = o.q.Duration,
                       PassingPercentage = o.q.PassingPercentage,
+                      AttemptId = o.a.Id,
                       AttemptDate = o.a.AttemptDate,
                       Questions = o.q.Questions
                       .Join(o.a.QuizResults.Where(x => x.AttemptId == o.a.Id), n => n.Id, m => m.QuestionId, (n, m) => new { n, m })
@@ -184,37 +186,54 @@ namespace Quiz.Web.QueryServices.Quiz
                               Id = r.Id,
                               Code = r.Code,
                               Name = r.Name,
-                              IsSelected = (x.m.SelectedAnswer == r.Id),
-                              IsAnswer = r.IsAnswer
+                              IsAnswer = r.IsAnswer,
+                              SetSelectedOptions = x.m.SelectedAnswer
                           })
                       })
                   }
                 ).FirstOrDefault();
 
-            setResult(quizResult);
+            GetResults(quizResult);
 
             return quizResult;
 
         }
 
-        private void setResult(QuizResultApiModel quizResult)
+        private void GetResults(QuizResultApiModel quizResult)
         {
-            int totalAttempt = 0, totalCorrectAnswer = 0;
-            foreach (var question in quizResult.Questions)
-            {
-                totalAttempt += question.Options.Where(x => x.IsSelected).Count() > 0 ? 1 : 0;
-                totalCorrectAnswer += question.Options.Where(x => x.IsSelected && x.IsSelected == x.IsAnswer).Count() > 0 ? 1 : 0;
-            }
+            int totalAttemptedQuestion;
+            int totalCorrectAnswer;
+            GetAttemptedAndCorrectAnswer(quizResult.AttemptId, quizResult.Id, out totalAttemptedQuestion, out totalCorrectAnswer);
+
             quizResult.TotalQuestions = quizResult.Questions.Count();
-            quizResult.TotalQuestionsAttempt = totalAttempt;
+            quizResult.TotalQuestionsAttempt = totalAttemptedQuestion;
             quizResult.TotalCorrectAnswer = totalCorrectAnswer;
             quizResult.TotalWrongAnswer = quizResult.TotalQuestions - totalCorrectAnswer;
-
 
             decimal percentageMarks = getMarksInPercentage(totalCorrectAnswer, quizResult.TotalQuestions);
             quizResult.MarksInPercentage = Math.Round(percentageMarks, 2);
             quizResult.ResultStatus = Math.Round(quizResult.MarksInPercentage) >= quizResult.PassingPercentage ? "Pass" : "Fail";
         }
+
+        private void GetAttemptedAndCorrectAnswer(int attemptId, int quizId,out int totalAttemptedQuestion,out int totalCorrectAnswer)
+        {
+           
+            var quizResult = _context.QuizAttemptDetails
+                .Join(_context.QuizResults, q => q.Id, a => a.AttemptId, (q, a) => new { q, a })
+                .Where(x => x.q.QuizId == quizId && x.a.AttemptId == attemptId)?
+                .Select(x => x.a).ToList();
+
+             totalCorrectAnswer = 0;
+            totalAttemptedQuestion = 0;
+             totalAttemptedQuestion = quizResult.Where(x => !string.IsNullOrEmpty(x.SelectedAnswer)).Count();
+
+            foreach (var resultItem in quizResult)
+            {
+
+                totalCorrectAnswer += (!string.IsNullOrEmpty(resultItem.ActualAnswer) && !string.IsNullOrEmpty(resultItem.SelectedAnswer)
+                    && resultItem.ActualAnswer == resultItem.SelectedAnswer) ? 1 : 0;
+            }   
+        }   
         private decimal getMarksInPercentage(decimal totalCorrectAnswer, decimal totalQuestions)
         {
             return (totalCorrectAnswer / totalQuestions) * 100;

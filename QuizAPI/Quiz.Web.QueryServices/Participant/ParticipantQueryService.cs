@@ -73,7 +73,7 @@ namespace Quiz.Web.QueryServices
 
         private string getResult(int attemptId,int quizId)
         {
-            int passingPercentage = _context.Quizes.FirstOrDefault(x => x.Id == quizId).PassingPercentage;
+            decimal passingPercentage = _context.Quizes.FirstOrDefault(x => x.Id == quizId).PassingPercentage;
 
             var quizResult = _context.QuizAttemptDetails
                 .Join(_context.QuizResults, q => q.Id, a => a.AttemptId, (q, a) => new { q, a })
@@ -83,13 +83,13 @@ namespace Quiz.Web.QueryServices
             int  totalCorrectAnswer = 0;
             foreach (var resultItem in quizResult)
             {
-                totalCorrectAnswer += (resultItem.ActualAnswer.HasValue && resultItem.SelectedAnswer.HasValue 
+                totalCorrectAnswer += (!string.IsNullOrEmpty(resultItem.ActualAnswer) && !string.IsNullOrEmpty(resultItem.SelectedAnswer) 
                     && resultItem.ActualAnswer == resultItem.SelectedAnswer ) ? 1 : 0;
             }
             int totalQuestion = quizResult.Count();          
             decimal percentageMarks = getMarksInPercentage(totalCorrectAnswer, totalQuestion);
             decimal percentageMark = Math.Round(percentageMarks, 2);
-            return  Math.Round(percentageMark) >= passingPercentage ? "Pass" : "Fail";
+            return percentageMark >= passingPercentage ? "Pass" : "Fail";
 
         }
         private decimal getMarksInPercentage(decimal totalCorrectAnswer, decimal totalQuestions)

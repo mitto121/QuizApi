@@ -14,12 +14,6 @@ namespace Quiz.Web.DataServices.Data
     
     public partial class Option
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Option()
-        {
-            this.QuizResults = new HashSet<QuizResult>();
-        }
-    
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -28,7 +22,5 @@ namespace Quiz.Web.DataServices.Data
         public bool IsActive { get; set; }
     
         public virtual Question Question { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuizResult> QuizResults { get; set; }
     }
 }

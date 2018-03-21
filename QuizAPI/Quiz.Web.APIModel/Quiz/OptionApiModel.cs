@@ -16,6 +16,19 @@ namespace Quiz.Web.APIModel.Quiz
         public bool IsActive { get; set; } = true;       
 
         public bool IsSelected { get; set; }
-       
+
+        public string SetSelectedOptions
+        {
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    var optionIds = value.Split(',');
+                    this.IsSelected = optionIds.Contains(Convert.ToString(this.Id));
+                }
+            }
+          
+        }
+
     }
 }

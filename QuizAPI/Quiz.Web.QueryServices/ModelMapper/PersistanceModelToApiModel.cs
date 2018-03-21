@@ -21,10 +21,11 @@ namespace Quiz.Web.QueryServices.ModelMapper
                 Id = userData.Id,
                 FirstName=userData.FirstName,
                 LastName=userData.LastName,
-                Email=userData.Email,                
-                UserName = userData.UserName,               
-                IsActive = userData.IsActive,
-                IsAdmin=userData.IsAdmin
+                Email=userData.Email,  
+                ContactNumber=userData.ContactNumber,
+                ProfileImagePath= userData.ProfileImagePath,
+                CreatedDate =userData.CreatedDate,                
+                IsActive = userData.IsActive
             };
         }
 

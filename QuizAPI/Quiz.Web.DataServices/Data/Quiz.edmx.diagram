@@ -5,21 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a07f6a490f374eafb2decf56692baa1e" Name="Diagram1">
-        <EntityTypeShape EntityType="QuizMasterDBModel.Option" Width="1.5" PointX="5.25" PointY="5.75" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.Question" Width="1.5" PointX="3" PointY="5.875" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.Quize" Width="1.5" PointX="0.75" PointY="2.625" />
-        <AssociationConnector Association="QuizMasterDBModel.FK__Options__Questio__267ABA7A" />
-        <AssociationConnector Association="QuizMasterDBModel.FK__Questions__QuizI__22AA2996" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.Participant" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.QuizAttemptDetail" Width="1.5" PointX="7.625" PointY="0.875" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.Participant" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.Question" Width="1.5" PointX="3" PointY="7.75" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.QuizAttemptDetail" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.Quize" Width="1.5" PointX="0.75" PointY="4.5" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.QuizResult" Width="1.5" PointX="5.25" PointY="6.25" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.UserLogin" Width="1.5" PointX="8" PointY="1.5" />
         <AssociationConnector Association="QuizMasterDBModel.FK_QuizAttemptDetails_Participants" />
-        <AssociationConnector Association="QuizMasterDBModel.FK__QuizAttem__QuizI__33D4B598" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.QuizResult" Width="1.5" PointX="9.875" PointY="1.375" />
-        <AssociationConnector Association="QuizMasterDBModel.FK__QuizResul__Selec__286302EC" />
+        <AssociationConnector Association="QuizMasterDBModel.FK__Questions__QuizI__22AA2996" />
         <AssociationConnector Association="QuizMasterDBModel.FK__QuizResul__Quest__276EDEB3" />
+        <AssociationConnector Association="QuizMasterDBModel.FK__QuizAttem__QuizI__24927208" />
         <AssociationConnector Association="QuizMasterDBModel.FK__QuizResul__Attem__267ABA7A" />
-        <EntityTypeShape EntityType="QuizMasterDBModel.User" Width="1.5" PointX="7.375" PointY="4.75" />
-        </Diagram>
+        <EntityTypeShape EntityType="QuizMasterDBModel.Option" Width="1.5" PointX="5.25" PointY="9.75" />
+        <AssociationConnector Association="QuizMasterDBModel.FK__Options__Questio__267ABA7A" />
+        <EntityTypeShape EntityType="QuizMasterDBModel.User" Width="1.5" PointX="5.75" PointY="1.25" />
+        <AssociationConnector Association="QuizMasterDBModel.FK_UserLogin_Users" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

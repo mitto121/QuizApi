@@ -41,5 +41,7 @@ namespace Quiz.Web.API.Shared
                 throw new Exception("Error in base64Decode" + ex.Message);
             }
         }
+
+    
     }
 }

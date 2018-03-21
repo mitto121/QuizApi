@@ -46,8 +46,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
     <Property Name="Description" Type="nvarchar" MaxLength="500" />
-    <Property Name="Duration" Type="int" Nullable="false" />
-    <Property Name="PassingPercentage" Type="int" Nullable="false" />
+    <Property Name="Duration" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="PassingPercentage" Type="numeric" Precision="5" Scale="2" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
@@ -58,8 +58,19 @@
     <Property Name="SNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AttemptId" Type="int" />
     <Property Name="QuestionId" Type="int" />
-    <Property Name="SelectedAnswer" Type="int" />
-    <Property Name="ActualAnswer" Type="int" />
+    <Property Name="SelectedAnswer" Type="nvarchar" MaxLength="250" />
+    <Property Name="ActualAnswer" Type="nvarchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -69,11 +80,10 @@
     <Property Name="FirstName" Type="nvarchar" MaxLength="120" />
     <Property Name="LastName" Type="nvarchar" MaxLength="120" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="Password" Type="nvarchar" MaxLength="80" Nullable="false" />
+    <Property Name="ContactNumber" Type="nvarchar" MaxLength="10" />
+    <Property Name="ProfileImagePath" Type="nvarchar" MaxLength="600" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="IsAdmin" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK__Options__Questio__267ABA7A">
     <End Role="Questions" Type="Self.Questions" Multiplicity="0..1" />
@@ -135,18 +145,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuizResul__Selec__286302EC">
-    <End Role="Options" Type="Self.Options" Multiplicity="0..1" />
-    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Options">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="QuizResults">
-        <PropertyRef Name="SelectedAnswer" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_QuizAttemptDetails_Participants">
     <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
     <End Role="QuizAttemptDetails" Type="Self.QuizAttemptDetails" Multiplicity="*" />
@@ -159,6 +157,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_UserLogin_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="QuizMasterDBModelStoreContainer">
     <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
@@ -166,6 +176,7 @@
     <EntitySet Name="QuizAttemptDetails" EntityType="Self.QuizAttemptDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quizes" EntityType="Self.Quizes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuizResults" EntityType="Self.QuizResults" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Options__Questio__267ABA7A" Association="Self.FK__Options__Questio__267ABA7A">
       <End Role="Questions" EntitySet="Questions" />
@@ -187,13 +198,13 @@
       <End Role="Questions" EntitySet="Questions" />
       <End Role="QuizResults" EntitySet="QuizResults" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuizResul__Selec__286302EC" Association="Self.FK__QuizResul__Selec__286302EC">
-      <End Role="Options" EntitySet="Options" />
-      <End Role="QuizResults" EntitySet="QuizResults" />
-    </AssociationSet>
     <AssociationSet Name="FK_QuizAttemptDetails_Participants" Association="Self.FK_QuizAttemptDetails_Participants">
       <End Role="Participants" EntitySet="Participants" />
       <End Role="QuizAttemptDetails" EntitySet="QuizAttemptDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLogin_Users" Association="Self.FK_UserLogin_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserLogin" EntitySet="UserLogin" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
